@@ -16,7 +16,7 @@
 
 using namespace std;
 
-string version = "0.1 Alpha";
+string version = "0.2.5 Alpha";
 
 int main(){
     cout << "Starting..." << '\n';
@@ -73,8 +73,72 @@ int main(){
             cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n';
         }
 
-        if(command_input != "help" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say"){
+        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say"){
             std::cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
+        }
+
+        if(command_input == "calculator"){
+            double Fnum;
+            double Snum;
+            string text;
+            double i_num;
+
+            cout << "Minus? Plus? Split? Multiply?: ";
+            cin >> text;
+
+            // Простите за возможный г###окодинг. Я же впервые пишу всё на плюсах
+
+            if(text == "Minus"){
+                cout << "Enter the first number: ";
+                cin.ignore();
+                cin >> Fnum;
+                cout << "";
+                cout << "Enter the second number: ";
+                cin >> Snum;
+                cout << "";
+
+                i_num = Fnum - Snum;
+                cout << "Done! Here's the number: " << i_num << '\n';
+            }
+
+            if(text == "Plus"){
+                cout << "Enter the first number: ";
+                cin.ignore();
+                cin >> Fnum;
+                cout << "";
+                cout << "Enter the second number: ";
+                cin >> Snum;
+                cout << "";
+
+                i_num = Fnum + Snum;
+                cout << "Done! Here's the number: " << i_num << '\n';
+            }
+
+            if(text == "Split"){
+                cout << "Enter the first number: ";
+                cin.ignore();
+                cin >> Fnum;
+                cout << "";
+                cout << "Enter the second number: ";
+                cin >> Snum;
+                cout << "";
+
+                i_num = Fnum / Snum;
+                cout << "Done! Here's the number: " << i_num << '\n';
+            }
+
+            if(text == "Multiply"){
+                cout << "Enter the first number: ";
+                cin.ignore();
+                cin >> Fnum;
+                cout << "";
+                cout << "Enter the second number: ";
+                cin >> Snum;
+                cout << "";
+
+                i_num = Fnum * Snum;
+                cout << "Done! Here's the number: " << i_num << '\n';
+            }
         }
     }
 
