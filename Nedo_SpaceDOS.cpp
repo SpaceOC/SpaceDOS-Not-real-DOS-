@@ -1,8 +1,6 @@
 #include <iostream>
 #include <windows.h>
 #include <string>
-#include <chrono>
-#include <thread>
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -23,7 +21,7 @@ string version = "0.1 Alpha";
 int main(){
     cout << "Starting..." << '\n';
 
-    this_thread::sleep_for(std::chrono::seconds(2));
+    Sleep(2000);
 
     cout << "Welcome to SpaceDOS!" << '\n';
     cout << "Version SpaceDOS - " << "[ " << version << " ]" << '\n';
@@ -46,7 +44,7 @@ int main(){
 
             cout << "Begin the process of deleting the user \"" << d_user << "\"..." << '\n';
 
-            this_thread::sleep_for(std::chrono::seconds(2));
+            Sleep(2000);
 
             cout << "The user was successfully deleted for a reason: \"" << text << "\"" << '\n';
         }
