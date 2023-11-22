@@ -1,6 +1,8 @@
 #include <iostream>
 #include <windows.h>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -16,10 +18,53 @@
 
 using namespace std;
 
-string version = "0.2.5 Alpha";
+string version = "0.3 Alpha";
+
+void fakeLoading() {
+    char symbols[] = {'|', '/', '-', '\\'};
+    int index = 0;
+
+    for (int i = 0; i < 3; i++) {
+        std::cout << "Loading " << symbols[index];
+        std::cout.flush();
+        index = (index + 1) % 4;
+        Sleep(1000);
+        std::cout << "\b\b\b\b\b\b\b\b\b\b";
+    }
+    for (int i = 3; i < 6; i++) {
+        std::cout << "Loading kernel " << symbols[index];
+        std::cout.flush();
+        index = (index + 1) % 4;
+        Sleep(1000);
+        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+    }
+    for (int i = 6; i < 8; i++) {
+        std::cout << "Loading commands " << symbols[index];
+        std::cout.flush();
+        index = (index + 1) % 4;
+        Sleep(1000);
+        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+    }
+    for (int i = 8; i < 10; i++) {
+        std::cout << "Launching SpaceDOS " << symbols[index];
+        std::cout.flush();
+        index = (index + 1) % 4;
+        Sleep(1000);
+        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+    }
+
+    bool errorCondition = false; // Set to true if there is an error
+    if (errorCondition) {
+        std::cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << std::endl;
+        std::cout << "error" << std::endl; // Replace "error" with the actual error message
+    }
+    else {
+        std::cout << "SpaceDOS launched successfully!" << std::endl;
+    }
+}
 
 int main(){
-    cout << "Starting..." << '\n';
+    fakeLoading();
 
     Sleep(2000);
 
@@ -70,10 +115,10 @@ int main(){
         }
 
         if(command_input == "help"){
-            cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n';
+            cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n' << "calculator - Calculator" << '\n' <<"RSP - Rock, Scissors, Paper!" << '\n';
         }
 
-        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say"){
+        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP"){
             std::cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
         }
 
@@ -140,7 +185,43 @@ int main(){
                 cout << "Done! Here's the number: " << i_num << '\n';
             }
         }
+
+        if(command_input == "RSP"){ // Rock, Scissors, Paper // Да.. Я не знаю как по другому написать. У меня не работает просто, если напишу Rock, Scissors, Paper вместо "RSP"
+            srand(time(0));
+
+            int a;
+            cout << "Enter a number between one and three. 1 - Rock, 2 - Scissors, 3 - Paper: ";
+            cin >> a;
+
+            int v = rand() % 3 + 1;
+
+            if (a == v) {
+                cout << "Tie!" << endl;
+            }
+            else if (a == 1 && v == 2) {
+                cout << "The rock breaks the scissors! The computer lost." << endl;
+            }
+            else if (a == 2 && v == 3) {
+                cout << "The scissors cut the paper. The computer lost!" << endl;
+            }
+            else if (a == 2 && v == 1) {
+                cout << "The rock breaks the scissors! Player lost." << endl;
+            }
+            else if (a == 3 && v == 2) {
+                cout << "The scissors cut the paper. The player has lost!" << endl;
+            }
+            else if (a == 1 && v == 3) {
+                cout << "Paper covers stone... The player has lost!" << endl;
+            }
+            else if (a == 3 && v == 1) {
+                cout << "Player wins! Paper covers rock" << endl;
+            }
+        }
     }
 
     return 0;
 }
+
+
+
+
