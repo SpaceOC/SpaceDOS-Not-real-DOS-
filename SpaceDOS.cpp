@@ -5,6 +5,7 @@
 #include <ctime>
 #include <fstream>
 #include <vector>
+#include <bits/stdc++.h>
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -17,6 +18,10 @@
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
+
+
+
+// Запасайтесь таблетками от кринжа и г###окодинга! Мы погружаемся в самый ужас!
 
 using namespace std;
 
@@ -106,61 +111,75 @@ void fakeLoading() {
     int index = 0;
 
     for (int i = 0; i < 3; i++) {
-        std::cout << "Loading " << symbols[index];
-        std::cout.flush();
+        cout << "Loading " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        std::cout << "\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 3; i < 6; i++) {
-        std::cout << "Loading kernel " << symbols[index];
-        std::cout.flush();
+        cout << "Loading kernel " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 6; i < 8; i++) {
-        std::cout << "Loading commands " << symbols[index];
-        std::cout.flush();
+        cout << "Loading commands " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 8; i < 10; i++) {
-        std::cout << "Launching SpaceDOS " << symbols[index];
-        std::cout.flush();
+        cout << "Launching SpaceDOS " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
 
     bool errorCondition = false; // Set to true if there is an error
     if (errorCondition) {
-        std::cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << std::endl;
-        std::cout << "error" << std::endl; // Replace "error" with the actual error message
+        cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << endl;
+        cout << "error" << endl; // Replace "error" with the actual error message
     }
     else {
-        std::cout << "SpaceDOS launched successfully!" << std::endl;
+        cout << "SpaceDOS launched successfully!" << endl;
     }
 }
 
 int main(){
     CreateData();
     ReadData();
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "");
 
     fakeLoading();
 
     Sleep(2000);
 
-
-    cout << "Welcome to SpaceDOS!" << '\n';
-    cout << "Version SpaceDOS - " << "[ " << version << " ]" << '\n';
+    if(language == "Russian"){
+        wcout << L"Добро пожаловать в SpaceDOS!" << '\n';
+        wcout << L"Версия SpaceDOS - ";
+        wcout << L"[ ";
+        cout << version;
+        wcout << L" ]" << '\n';
+    }
+    else{
+        cout << "Welcome to SpaceDOS!" << '\n';
+        cout << "Version SpaceDOS - " << "[ " << version << " ]" << '\n';
+    }
 
     while (true){
         string command_input;
+        
 
-        cout << "Enter command: ";
+        if(language == "Russian"){
+            wcout << L"Введите команду: ";
+        }
+        else{
+            cout << "Enter command: ";
+        }
         cin >> command_input;
 
         if(command_input == "delete"){
@@ -229,7 +248,7 @@ int main(){
             switch(op)
             {
                 case '+':
-                    std::cout << "Done! Here's the number: " << Fnum + Snum << std::endl;
+                    std::cout << "Готово! Here's the number: " << Fnum + Snum << std::endl;
                     break;
                 case '-':
                     std::cout << "Done! Here's the number: " << Fnum - Snum << std::endl;
@@ -275,30 +294,48 @@ int main(){
             }
         }
 
-        if(command_input == "settings") {
-            string text;
+        if (command_input == "settings") {
+            int a;
+            string b;
+            int c;
+            int d;
 
-            cout << "What do you want to customize?\n1 - Profile\n2 - Language\n";
-            cin >> text;
+            cout << "What do you want to customize?\n1 - Profile\n2 - Language\n3 - Console Color\n";
+            cin >> a;
 
-            if(text == "1"){
-                wcout << "В разработке (мне лень)\n";
-            }
+            if (a == 1) {
+                string new_username;
+                cout << "New username: ";
+                cin >> new_username;
 
-            if(text == "2"){
-                string b;
+                EditData("UserName", new_username);
+            } 
+            else if (a == 2) {
                 cout << "RU - Russian\nEN - English\n";
-                cin >> b;
+            cin >> b;
 
-                if(b == "RU"){
+                if (b == "RU") {
                     EditData("Language", "Russian");
-                }
-
-                if(b == "EN"){
+                } 
+                else if (b == "EN") {
                     EditData("Language", "English");
                 }
-            }
+            } 
+            else if (a == 3) {
+                cout << "[0 - 9] - Console Color\n[0 - 9] - Text Color\n";
+                cout << "Type in: ";
+                cin >> c;
+                cout << "Type in: ";
+                cin >> d;
 
+                if (c >= 0 && c <= 9 && d >= 0 && d <= 9) {
+                    string colorCode = "color " + to_string(c) + to_string(d);
+                    system(colorCode.c_str());
+                }
+            } 
+            else if (a == 4) {
+                cout << "ТЫ ЧТО СМОТРИШЬ?! " << std::endl;
+            }
         }
 
     }
