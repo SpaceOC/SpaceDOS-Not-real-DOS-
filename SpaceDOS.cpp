@@ -25,7 +25,7 @@
 
 using namespace std;
 
-string version = "0.5 Alpha";
+string version = "0.6 Alpha";
 string DefaultLanguage = "English";
 string DefaultUserName = "defaultuser0";
 string language;
@@ -186,17 +186,40 @@ int main(){
             string d_user;
             string text;
 
-            cout << "Write the username of the user you want to delete: ";
+            if (language == "Russian") {
+                wcout << L"Напишите username пользователя, которого вы хотите удалить: ";
+            }
+            else {
+                cout << "Write the username of the user you want to delete: ";
+            }
+
             cin.ignore(); // Игнорируем символ новой строки оставшийся после предыдущего ввода
             cin >> d_user;
-            cout << "The reason you want to delete the user?: ";
+
+            if (language == "Russian") {
+                wcout << L"Напишите причину удаления пользователя: ";
+            }
+            else {
+                cout << "The reason you want to delete the user?: ";
+            }
+
             cin >> text;
 
-            cout << "Begin the process of deleting the user \"" << d_user << "\"..." << '\n';
+            if (language == "Russian") {
+                wcout << L"Начинаем процесс удаления юзера \""; cout << d_user; wcout << L"\"..." << '\n';
+            }
+            else {
+                cout << "Begin the process of deleting the user \"" << d_user << "\"..." << '\n';
+            }
 
             Sleep(2000);
 
-            cout << "The user was successfully deleted for a reason: \"" << text << "\"" << '\n';
+            if (language == "Russian") {
+                wcout << L"Пользователь был успешно удалён по причине: \""; cout << text; wcout << L"\"" << '\n';
+            }
+            else {
+                cout << "The user was successfully deleted for a reason: \"" << text << "\"" << '\n';
+            }
         }
 
         if(command_input == "exit"){
@@ -209,7 +232,14 @@ int main(){
 
         if(command_input == "say"){
             string say_text;
-            cout << "Enter text to say: ";
+
+            if (language == "Russian") {
+                wcout << L"Введите текст, который должен быть сказан: ";
+            }
+            else {
+                cout << "Enter text to say: ";
+            }
+
             cin.ignore(); // Игнорируем символ новой строки оставшийся после предыдущего ввода
             getline(cin, say_text);
             cout << say_text << '\n';
@@ -223,7 +253,7 @@ int main(){
             cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n' << "calculator - Calculator" << '\n' <<"RSP - Rock, Scissors, Paper!" << '\n';
         }
 
-        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP" && command_input != "settings"){
+        if(command_input != "help" && command_input != "logo" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP" && command_input != "settings"){
             std::cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
         }
 
@@ -248,7 +278,7 @@ int main(){
             switch(op)
             {
                 case '+':
-                    std::cout << "Готово! Here's the number: " << Fnum + Snum << std::endl;
+                    std::cout << "Done! Here's the number: " << Fnum + Snum << std::endl;
                     break;
                 case '-':
                     std::cout << "Done! Here's the number: " << Fnum - Snum << std::endl;
@@ -292,6 +322,28 @@ int main(){
             else if (a == 3 && v == 1) {
                 cout << "Player wins! Paper covers rock" << endl;
             }
+        }
+
+        if (command_input == "logo"){ // Не работает :(
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣠⣤⣤⣤" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣿⣿⣿⣿⣿⡿⢿⣿⣿" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣟⢛⠛⢛⣉⣤⣉⡀⢸⣿⣿" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣿⡿⠋⠁⠀⠈⢷⣄⠈⢿⣿⣿⡇⣼⣿⡿" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠙⢷⣤⡈⠻⢧⣿⣿⠇" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠟⠁⠀⠀⠀⡀⢀⡀⠀⠀⠀⠀⠙⢿⣇⣼⣿⡟⠀" << '\n';
+            wcout << L"⠀⠀⠀⠀⠀⣠⣶⣶⣶⣶⣶⣶⣶⣿⣿⠿⠁⠀⠀⢀⠂⠀⠀⠀⠪⢂⠀⠀⠀⠀⠀⣸⣿⣿⠁⠀" << '\n';
+            wcout << L"⠀⠀⠀⣠⣾⣿⡿⠋⠉⠭⠭⠭⢭⠟⠃⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠸⠀⠀⠀⠀⣰⣿⡿⠁⠀⠀" << '\n';
+            wcout << L"⠀⣠⣾⣿⡿⠋⠀⠀⠀⠀⢀⠔⠁⠀⠀⠀⠀⠀⠀⠀⠣⠄⠀⠀⠀⠀⠀⠀⢠⣾⣿⡿⠁⠀⠀⠀" << '\n';
+            wcout << L"⠀⠙⢿⣿⣷⣄⠀⠀⢀⠔⠁⠀⠀⠀⠀⠀⠀⣠⡀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⠏⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⠀⠀⠙⢿⣿⣷⣞⠁⠀⠀⠀⠀⠀⠀⣠⣾⠏⠁⠀⠀⠀⠀⠀⢀⣴⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⠀⠀⠀⣼⣿⡿⠘⠳⣄⠀⠀⠀⣠⣾⠟⠁⠀⠀⠀⠀⠀⢀⣴⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⠀⠀⢠⣿⣿⠃⠀⠀⠈⠳⣤⣾⠟⠁⠀⠀⠀⠀⠀⢀⠔⢹⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⠀⣠⣿⣿⠟⢦⡀⠀⠀⠀⠘⠳⣄⠀⠀⠀⠀⢀⠔⠁⠀⢸⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⢰⣿⣿⠁⢰⠃⠙⢦⡀⠀⠀⠀⠘⠷⡀⢀⡔⠁⠀⠀⠀⢸⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠀⣿⣿⡇⠀⡇⠀⠀⡀⠙⢦⢀⣀⣠⣴⣾⣧⡁⠀⠀⠀⢠⣾⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⢰⣿⣿⠀⠘⠁⠒⠈⣀⣴⣾⣿⣿⠿⠿⠿⣿⣿⣧⣀⣴⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⢸⣿⣿⣤⣤⣵⣶⣿⣿⡿⠟⠉⠀⠀⠀⠀⠈⠻⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
+            wcout << L"⠘⠿⠿⠿⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
         }
 
         if (command_input == "settings") {
