@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <vector>
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -18,7 +20,86 @@
 
 using namespace std;
 
-string version = "0.3 Alpha";
+string version = "0.4 Alpha";
+string DefaultLanguage = "English";
+string DefaultUserName = "defaultuser0";
+string language;
+string username;
+
+void CreateData() {
+    ifstream file("data.data");
+    if (!file) {
+        ofstream data("data.data");
+        if (data) {
+            data << "Language: " << DefaultLanguage << '\n';
+            data << "UserName: " << DefaultUserName << '\n';
+            data.close();
+        }
+        else {
+            cout << "Error opening the data file." << '\n';
+        }
+    }
+    else {
+        file.close();
+    }
+}
+
+void ReadData() {
+    ifstream data("data.data");
+    if (data) {
+        string line;
+        bool foundLanguage = false;
+        bool foundUsername = false;
+        while (getline(data, line)) {
+            if (!foundLanguage && line.find("Language: ") != string::npos) {
+                language = line.substr(10);
+                cout << language << '\n';
+                foundLanguage = true;
+            }
+            if (!foundUsername && line.find("UserName: ") != string::npos) {
+                username = line.substr(10);
+                cout << username << '\n';
+                foundUsername = true;
+            }
+            if (foundLanguage && foundUsername) {
+                break;
+            }
+        }
+        data.close();
+    }
+    else {
+        cout << "Error opening the data file." << std::endl;
+    }
+}
+
+void EditData(const string& field, const string& value) {
+    ifstream inputFile("data.data");
+    ofstream tempFile("temp.data");
+    if (inputFile && tempFile) {
+        string line;
+        bool fieldFound = false;
+        while (getline(inputFile, line)) {
+            if (line.find(field) != string::npos) {
+                tempFile << field << ": " << value << '\n';
+                fieldFound = true;
+            }
+            else {
+                tempFile << line << '\n';
+            }
+        }
+        inputFile.close();
+        tempFile.close();
+        remove("data.data");
+        rename("temp.data", "data.data");
+        
+        if (!fieldFound) {
+            cout << "Field not found." << '\n';
+        }
+    }
+    else {
+        cout << "Error opening the data file." << '\n';
+    }
+}
 
 void fakeLoading() {
     char symbols[] = {'|', '/', '-', '\\'};
@@ -64,9 +145,14 @@ void fakeLoading() {
 }
 
 int main(){
+    CreateData();
+    ReadData();
+    setlocale(LC_ALL, "Russian");
+
     fakeLoading();
 
     Sleep(2000);
+
 
     cout << "Welcome to SpaceDOS!" << '\n';
     cout << "Version SpaceDOS - " << "[ " << version << " ]" << '\n';
@@ -118,71 +204,42 @@ int main(){
             cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n' << "calculator - Calculator" << '\n' <<"RSP - Rock, Scissors, Paper!" << '\n';
         }
 
-        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP"){
+        if(command_input != "help" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP" && command_input != "settings"){
             std::cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
         }
 
         if(command_input == "calculator"){
             double Fnum;
             double Snum;
-            string text;
+            char op;
             double i_num;
 
-            cout << "Minus? Plus? Split? Multiply?: ";
-            cin >> text;
+            cout << "Enter the first number: ";
+            cin.ignore();
+            cin >> Fnum;
+            cout << "";
+            cout << "Enter the second number: ";
+            cin >> Snum;
+            cout << "";
 
-            // Простите за возможный г###окодинг. Я же впервые пишу всё на плюсах
+            cout << "\"-\" or \"+\" or \"*\" or \"/\"?: ";
+            cin >> op;
+            cout << "";
 
-            if(text == "Minus"){
-                cout << "Enter the first number: ";
-                cin.ignore();
-                cin >> Fnum;
-                cout << "";
-                cout << "Enter the second number: ";
-                cin >> Snum;
-                cout << "";
-
-                i_num = Fnum - Snum;
-                cout << "Done! Here's the number: " << i_num << '\n';
-            }
-
-            if(text == "Plus"){
-                cout << "Enter the first number: ";
-                cin.ignore();
-                cin >> Fnum;
-                cout << "";
-                cout << "Enter the second number: ";
-                cin >> Snum;
-                cout << "";
-
-                i_num = Fnum + Snum;
-                cout << "Done! Here's the number: " << i_num << '\n';
-            }
-
-            if(text == "Split"){
-                cout << "Enter the first number: ";
-                cin.ignore();
-                cin >> Fnum;
-                cout << "";
-                cout << "Enter the second number: ";
-                cin >> Snum;
-                cout << "";
-
-                i_num = Fnum / Snum;
-                cout << "Done! Here's the number: " << i_num << '\n';
-            }
-
-            if(text == "Multiply"){
-                cout << "Enter the first number: ";
-                cin.ignore();
-                cin >> Fnum;
-                cout << "";
-                cout << "Enter the second number: ";
-                cin >> Snum;
-                cout << "";
-
-                i_num = Fnum * Snum;
-                cout << "Done! Here's the number: " << i_num << '\n';
+            switch(op)
+            {
+                case '+':
+                    std::cout << "Done! Here's the number: " << Fnum + Snum << std::endl;
+                    break;
+                case '-':
+                    std::cout << "Done! Here's the number: " << Fnum - Snum << std::endl;
+                    break;
+                case '*':
+                    std::cout << "Done! Here's the number: " << Fnum * Snum << std::endl;
+                    break;
+                case '/':
+                    std::cout << "Done! Here's the number: " << Fnum / Snum << std::endl;
+                    break;
             }
         }
 
@@ -217,11 +274,34 @@ int main(){
                 cout << "Player wins! Paper covers rock" << endl;
             }
         }
+
+        if(command_input == "settings") {
+            string text;
+
+            cout << "What do you want to customize?\n1 - Profile\n2 - Language\n";
+            cin >> text;
+
+            if(text == "1"){
+                wcout << "В разработке (мне лень)\n";
+            }
+
+            if(text == "2"){
+                string b;
+                cout << "RU - Russian\nEN - English\n";
+                cin >> b;
+
+                if(b == "RU"){
+                    EditData("Language", "Russian");
+                }
+
+                if(b == "EN"){
+                    EditData("Language", "English");
+                }
+            }
+
+        }
+
     }
 
     return 0;
 }
-
-
-
-
