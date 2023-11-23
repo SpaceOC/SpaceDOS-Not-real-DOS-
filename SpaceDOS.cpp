@@ -25,7 +25,7 @@
 
 using namespace std;
 
-string version = "0.4 Alpha";
+string version = "0.5 Alpha";
 string DefaultLanguage = "English";
 string DefaultUserName = "defaultuser0";
 string language;
