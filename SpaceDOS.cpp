@@ -25,23 +25,32 @@
 
 using namespace std;
 
-string version = "0.6 Alpha";
-string DefaultLanguage = "English";
-string DefaultUserName = "defaultuser0";
-string language;
-string username;
+wstring version = L"0.7 Alpha";
+wstring DefaultLanguage = L"English";
+wstring DefaultUserName = L"defaultuser0";
+wstring language;
+wstring username;
+
+void printMessage(const wstring& messageEn, const wstring& messageRu) {
+    if (language == L"Russian") {
+        wcout << messageRu << L'\n';
+    }
+    else {
+        wcout << messageEn << L'\n';
+    }
+}
 
 void CreateData() {
-    ifstream file("data.data");
+    wifstream file("data.data");
     if (!file) {
-        ofstream data("data.data");
+        wofstream data("data.data");
         if (data) {
-            data << "Language: " << DefaultLanguage << '\n';
-            data << "UserName: " << DefaultUserName << '\n';
+            data << L"Language: " << DefaultLanguage << L'\n';
+            data << L"UserName: " << DefaultUserName << L'\n';
             data.close();
         }
         else {
-            cout << "Error opening the data file." << '\n';
+            wcout << L"Error opening the data file." << L'\n';
         }
     }
     else {
@@ -50,20 +59,20 @@ void CreateData() {
 }
 
 void ReadData() {
-    ifstream data("data.data");
+    wifstream data("data.data");
     if (data) {
-        string line;
+        wstring line;
         bool foundLanguage = false;
         bool foundUsername = false;
         while (getline(data, line)) {
-            if (!foundLanguage && line.find("Language: ") != string::npos) {
+            if (!foundLanguage && line.find(L"Language: ") != wstring::npos) {
                 language = line.substr(10);
-                cout << language << '\n';
+                wcout << language << L'\n';
                 foundLanguage = true;
             }
-            if (!foundUsername && line.find("UserName: ") != string::npos) {
+            if (!foundUsername && line.find(L"UserName: ") != wstring::npos) {
                 username = line.substr(10);
-                cout << username << '\n';
+                wcout << username << L'\n';
                 foundUsername = true;
             }
             if (foundLanguage && foundUsername) {
@@ -73,23 +82,23 @@ void ReadData() {
         data.close();
     }
     else {
-        cout << "Error opening the data file." << std::endl;
+        wcout << L"Error opening the data file." << std::endl;
     }
 }
 
-void EditData(const string& field, const string& value) {
-    ifstream inputFile("data.data");
-    ofstream tempFile("temp.data");
+void EditData(const wstring& field, const wstring& value) {
+    wifstream inputFile("data.data");
+    wofstream tempFile("temp.data");
     if (inputFile && tempFile) {
-        string line;
+        wstring line;
         bool fieldFound = false;
         while (getline(inputFile, line)) {
-            if (line.find(field) != string::npos) {
-                tempFile << field << ": " << value << '\n';
+            if (line.find(field) != wstring::npos) {
+                tempFile << field << L": " << value << L'\n';
                 fieldFound = true;
             }
             else {
-                tempFile << line << '\n';
+                tempFile << line << L'\n';
             }
         }
         inputFile.close();
@@ -98,11 +107,11 @@ void EditData(const string& field, const string& value) {
         rename("temp.data", "data.data");
         
         if (!fieldFound) {
-            cout << "Field not found." << '\n';
+            wcout << L"Field not found." << L'\n';
         }
     }
     else {
-        cout << "Error opening the data file." << '\n';
+        wcout << L"Error opening the data file." << L'\n';
     }
 }
 
@@ -111,41 +120,41 @@ void fakeLoading() {
     int index = 0;
 
     for (int i = 0; i < 3; i++) {
-        cout << "Loading " << symbols[index];
-        cout.flush();
+        wcout << L"Loading " << symbols[index];
+        wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 3; i < 6; i++) {
-        cout << "Loading kernel " << symbols[index];
-        cout.flush();
+        wcout << L"Loading kernel " << symbols[index];
+        wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 6; i < 8; i++) {
-        cout << "Loading commands " << symbols[index];
-        cout.flush();
+        wcout << L"Loading commands " << symbols[index];
+        wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 8; i < 10; i++) {
-        cout << "Launching SpaceDOS " << symbols[index];
-        cout.flush();
+        wcout << L"Launching SpaceDOS " << symbols[index];
+        wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
 
-    bool errorCondition = false; // Set to true if there is an error
+    bool errorCondition = false;
     if (errorCondition) {
-        cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << endl;
-        cout << "error" << endl; // Replace "error" with the actual error message
+        wcout << L"SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << L'\n';
+        wcout << L"error" << L'\n';
     }
     else {
-        cout << "SpaceDOS launched successfully!" << endl;
+        wcout << L"SpaceDOS launched successfully!" << L'\n';
     }
 }
 
@@ -158,173 +167,168 @@ int main(){
 
     Sleep(2000);
 
-    if(language == "Russian"){
-        wcout << L"Добро пожаловать в SpaceDOS!" << '\n';
-        wcout << L"Версия SpaceDOS - ";
-        wcout << L"[ ";
-        cout << version;
-        wcout << L" ]" << '\n';
-    }
-    else{
-        cout << "Welcome to SpaceDOS!" << '\n';
-        cout << "Version SpaceDOS - " << "[ " << version << " ]" << '\n';
-    }
+    printMessage(L"Welcome to SpaceDOS!", L"Добро пожаловать в SpaceDOS!");
+    wcout << L"Version SpaceDOS - [ " << version << L" ]" << L'\n';
 
     while (true){
-        string command_input;
+        wstring command_input;
         
 
-        if(language == "Russian"){
+        if(language == L"Russian"){
             wcout << L"Введите команду: ";
         }
         else{
-            cout << "Enter command: ";
+            wcout << L"Enter command: ";
         }
-        cin >> command_input;
+        wcin >> command_input;
 
-        if(command_input == "delete"){
-            string d_user;
-            string text;
+        if(command_input == L"delete"){
+            wstring d_user;
+            wstring text;
 
-            if (language == "Russian") {
+            if (language == L"Russian") {
                 wcout << L"Напишите username пользователя, которого вы хотите удалить: ";
             }
             else {
-                cout << "Write the username of the user you want to delete: ";
+                cout << L"Write the username of the user you want to delete: ";
             }
 
             cin.ignore(); // Игнорируем символ новой строки оставшийся после предыдущего ввода
-            cin >> d_user;
+            wcin >> d_user;
 
-            if (language == "Russian") {
+            if (language == L"Russian") {
                 wcout << L"Напишите причину удаления пользователя: ";
             }
             else {
-                cout << "The reason you want to delete the user?: ";
+                wcout << L"The reason you want to delete the user?: ";
             }
 
-            cin >> text;
+            wcin >> text;
 
-            if (language == "Russian") {
-                wcout << L"Начинаем процесс удаления юзера \""; cout << d_user; wcout << L"\"..." << '\n';
+            if (language == L"Russian") {
+                wcout << L"Начинаем процесс удаления юзера \"" << d_user << L"\"..." << L'\n';
             }
             else {
-                cout << "Begin the process of deleting the user \"" << d_user << "\"..." << '\n';
+                wcout << L"Begin the process of deleting the user \"" << d_user << L"\"..." << L'\n';
             }
 
             Sleep(2000);
 
-            if (language == "Russian") {
-                wcout << L"Пользователь был успешно удалён по причине: \""; cout << text; wcout << L"\"" << '\n';
+            if (language == L"Russian") {
+                wcout << L"Пользователь был успешно удалён по причине: \"" << text << L"\"" << L'\n';
             }
             else {
-                cout << "The user was successfully deleted for a reason: \"" << text << "\"" << '\n';
+                wcout << L"The user was successfully deleted for a reason: \"" << text << L"\"" << L'\n';
             }
         }
 
-        if(command_input == "exit"){
+        if(command_input == L"exit"){
             break;
         }
 
-        if(command_input == "hi"){
-            cout << "Hi!" << '\n';
+        if(command_input == L"hi"){
+            wcout << L"Hi!" << '\n';
         }
 
-        if(command_input == "say"){
-            string say_text;
+        if(command_input == L"say"){
+            wstring say_text;
 
-            if (language == "Russian") {
+            if (language == L"Russian") {
                 wcout << L"Введите текст, который должен быть сказан: ";
             }
             else {
-                cout << "Enter text to say: ";
+                wcout << L"Enter text to say: ";
             }
 
-            cin.ignore(); // Игнорируем символ новой строки оставшийся после предыдущего ввода
-            getline(cin, say_text);
-            cout << say_text << '\n';
+            wcin.ignore(); // Игнорируем символ новой строки оставшийся после предыдущего ввода
+            getline(wcin, say_text);
+            wcout << say_text << '\n';
         }
 
-        if(command_input == "version"){
-            cout << "SpaceDOS " << "[ " << version << " ]" << '\n';
+        if(command_input == L"version"){
+            wcout << L"SpaceDOS " << L"[ " << version << L" ]" << L'\n';
         }
 
-        if(command_input == "help"){
-            cout << "help - displays a list of all commands" << '\n' << "version - shows the version of this \"game\"" << '\n' << "delete - removes user from Real Life (DANGER!)" << '\n' << "hi - Hi!" << '\n' << "calculator - Calculator" << '\n' <<"RSP - Rock, Scissors, Paper!" << '\n';
+        if(command_input == L"help"){
+            wcout << L"help - displays a list of all commands" << L'\n' << L"version - shows the version of this \"game\"" << L'\n' << L"delete - removes user from Real Life (DANGER!)" << L'\n' << L"hi - Hi!" << L'\n' << L"calculator - Calculator" << L'\n' << L"RSP - Rock, Scissors, Paper!" << L'\n';
         }
 
-        if(command_input != "help" && command_input != "logo" && command_input != "calculator" && command_input != "version" && command_input != "exit" && command_input != "delete" && command_input != "hi" && command_input != "say" && command_input != "RSP" && command_input != "settings"){
-            std::cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
+        if(command_input != L"help" && command_input != L"logo" && command_input != L"calculator" && command_input != L"version" && command_input != L"exit" && command_input != L"delete" && command_input != L"hi" && command_input != L"say" && command_input != L"RSP" && command_input != L"settings"){
+            wcout << L"Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
         }
 
-        if(command_input == "calculator"){
+        if (command_input == L"calculator") {
             double Fnum;
             double Snum;
             char op;
-            double i_num;
 
-            cout << "Enter the first number: ";
-            cin.ignore();
-            cin >> Fnum;
-            cout << "";
-            cout << "Enter the second number: ";
-            cin >> Snum;
-            cout << "";
-
-            cout << "\"-\" or \"+\" or \"*\" or \"/\"?: ";
+            wcout << L"Enter the first number: ";
+            wcin >> Fnum;
+            wcout << L"Enter the operator (+, -, *, /): ";
             cin >> op;
-            cout << "";
+            wcout << L"Enter the second number: ";
+            wcin >> Snum;
 
-            switch(op)
-            {
+            double result;
+            switch (op) {
                 case '+':
-                    std::cout << "Done! Here's the number: " << Fnum + Snum << std::endl;
+                    result = Fnum + Snum;
                     break;
                 case '-':
-                    std::cout << "Done! Here's the number: " << Fnum - Snum << std::endl;
+                    result = Fnum - Snum;
                     break;
                 case '*':
-                    std::cout << "Done! Here's the number: " << Fnum * Snum << std::endl;
+                    result = Fnum * Snum;
                     break;
                 case '/':
-                    std::cout << "Done! Here's the number: " << Fnum / Snum << std::endl;
+                    if (Snum != 0) {
+                        result = Fnum / Snum;
+                    } else {
+                            wcout << L"Error: Cannot divide by zero!" << L'\n';
+                            return 0;
+                    }
                     break;
-            }
+                default:
+                    wcout << L"Error: Invalid operator!" << L'\n';
+                    return 0;
+                }
+
+            wcout << L"Done! The result is: " << result << L'\n';
         }
 
-        if(command_input == "RSP"){ // Rock, Scissors, Paper // Да.. Я не знаю как по другому написать. У меня не работает просто, если напишу Rock, Scissors, Paper вместо "RSP"
+        if(command_input == L"RSP"){ // Rock, Scissors, Paper // Да.. Я не знаю как по другому написать. У меня не работает просто, если напишу Rock, Scissors, Paper вместо "RSP"
             srand(time(0));
 
             int a;
-            cout << "Enter a number between one and three. 1 - Rock, 2 - Scissors, 3 - Paper: ";
+            wcout << L"Enter a number between one and three. 1 - Rock, 2 - Scissors, 3 - Paper: ";
             cin >> a;
 
             int v = rand() % 3 + 1;
 
             if (a == v) {
-                cout << "Tie!" << endl;
+                wcout << "Tie!" << endl;
             }
             else if (a == 1 && v == 2) {
-                cout << "The rock breaks the scissors! The computer lost." << endl;
+                wcout << "The rock breaks the scissors! The computer lost." << endl;
             }
             else if (a == 2 && v == 3) {
-                cout << "The scissors cut the paper. The computer lost!" << endl;
+                wcout << "The scissors cut the paper. The computer lost!" << endl;
             }
             else if (a == 2 && v == 1) {
-                cout << "The rock breaks the scissors! Player lost." << endl;
+                wcout << "The rock breaks the scissors! Player lost." << endl;
             }
             else if (a == 3 && v == 2) {
-                cout << "The scissors cut the paper. The player has lost!" << endl;
+                wcout << "The scissors cut the paper. The player has lost!" << endl;
             }
             else if (a == 1 && v == 3) {
-                cout << "Paper covers stone... The player has lost!" << endl;
+                wcout << "Paper covers stone... The player has lost!" << endl;
             }
             else if (a == 3 && v == 1) {
-                cout << "Player wins! Paper covers rock" << endl;
+                wcout << "Player wins! Paper covers rock" << endl;
             }
         }
 
-        if (command_input == "logo"){ // Не работает :(
+        if (command_input == L"logo"){ // Не работает :(
             wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣠⣤⣤⣤" << '\n';
             wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣿⣿⣿⣿⣿⡿⢿⣿⣿" << '\n';
             wcout << L"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣟⢛⠛⢛⣉⣤⣉⡀⢸⣿⣿" << '\n';
@@ -346,38 +350,38 @@ int main(){
             wcout << L"⠘⠿⠿⠿⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" << '\n';
         }
 
-        if (command_input == "settings") {
+        if (command_input == L"settings") {
             int a;
-            string b;
+            wstring b;
             int c;
             int d;
 
-            cout << "What do you want to customize?\n1 - Profile\n2 - Language\n3 - Console Color\n";
+            wcout << L"What do you want to customize?\n1 - Profile\n2 - Language\n3 - Console Color\n";
             cin >> a;
 
             if (a == 1) {
-                string new_username;
-                cout << "New username: ";
-                cin >> new_username;
+                wstring new_username;
+                wcout << L"New username: ";
+                wcin >> new_username;
 
-                EditData("UserName", new_username);
+                EditData(L"UserName", new_username);
             } 
             else if (a == 2) {
-                cout << "RU - Russian\nEN - English\n";
-            cin >> b;
+                wcout << L"RU - Russian\nEN - English\n";
+                wcin >> b;
 
-                if (b == "RU") {
-                    EditData("Language", "Russian");
+                if (b == L"RU") {
+                    EditData(L"Language", L"Russian");
                 } 
-                else if (b == "EN") {
-                    EditData("Language", "English");
+                else if (b == L"EN") {
+                    EditData(L"Language", L"English");
                 }
             } 
             else if (a == 3) {
-                cout << "[0 - 9] - Console Color\n[0 - 9] - Text Color\n";
-                cout << "Type in: ";
+                wcout << L"[0 - 9] - Console Color\n[0 - 9] - Text Color\n";
+                wcout << L"Type in: ";
                 cin >> c;
-                cout << "Type in: ";
+                wcout << L"Type in: ";
                 cin >> d;
 
                 if (c >= 0 && c <= 9 && d >= 0 && d <= 9) {
@@ -386,7 +390,7 @@ int main(){
                 }
             } 
             else if (a == 4) {
-                cout << "ТЫ ЧТО СМОТРИШЬ?! " << std::endl;
+                wcout << L"ТЫ ЧТО СМОТРИШЬ?! " << std::endl;
             }
         }
 
