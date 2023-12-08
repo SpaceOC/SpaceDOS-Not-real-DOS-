@@ -1,0 +1,2 @@
+void PrintTimeMonth();
+void calculateWorkTime();
