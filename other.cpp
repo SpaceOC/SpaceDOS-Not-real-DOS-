@@ -1,5 +1,8 @@
 #include <iostream>
 #include <windows.h>
+#include <variant>
+#include <string>
+#include <vector>
 #include "data.h"
 
 extern wstring language;
@@ -21,45 +24,41 @@ void printMessage(const wstring& what, const wstring& messageEn, const wstring& 
     }
 }
 
-void fakeLoading() {
-    char symbols[] = {'|', '/', '-', '\\'};
-    int index = 0;
-
+void fakeLoading(const vector<wstring>& symbols, int index, wstring MessageOne, wstring MessageTwo, wstring MessageThree, wstring Message4, wstring GreatBruh) {
     for (int i = 0; i < 3; i++) {
-        wcout << L"Loading " << symbols[index];
+        wcout << MessageOne << L" " << symbols[index];
         wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 3; i < 6; i++) {
-        wcout << L"Loading commands " << symbols[index];
+        wcout << MessageTwo << L" " << symbols[index];
         wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 6; i < 8; i++) {
-        wcout << L"Loading commands " << symbols[index];
+        wcout << MessageThree << L" " << symbols[index];
         wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 8; i < 10; i++) {
-        wcout << L"Launching SpaceDOS " << symbols[index];
+        wcout << Message4 << L" " << symbols[index];
         wcout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
 
     bool errorCondition = false;
     if (errorCondition) {
         wcout << L"SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << L'\n';
-        wcout << L"error" << L'\n';
     }
     else {
-        wcout << L"SpaceDOS launched successfully!" << L'\n';
+        wcout << GreatBruh << L'\n';
     }
-}
+};

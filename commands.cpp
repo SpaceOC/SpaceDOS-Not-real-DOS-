@@ -5,6 +5,7 @@
 #include <fstream>
 #include <locale>
 #include "data.h"
+#include "other.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ extern wstring language;
 
 // команда help - показывает все команды
 void help() {
-    wcout << L"help - displays a list of all commands" << endl << L"version - shows the version of this \"game\"" << endl << L"delete - removes user from Real Life (DANGER!)" << endl << L"hi - Hi!" << endl << L"calculator - Calculator" << endl << L"RSP - Rock, Scissors, Paper!" << endl << L"time - Work Time" << endl << L"zmeika - Game.... (WHAT)" << endl << L"counter - ..." << endl;
+    wcout << L"exit - выйти из SpaceDOS" << endl << L"help - displays a list of all commands" << endl << L"settings - настройки" << endl << L"version - shows the version of this \"game\"" << endl << L"delete - removes user from Real Life (DANGER!)" << endl << L"hi - Hi!" << endl << L"calculator - Calculator" << endl << L"RSP - Rock, Scissors, Paper!" << endl << L"time - Work Time" << endl << L"counter - ..." << endl << L"clear - Очистить командную строку" << endl << L"say - say" << endl;
     wcout << L"----------------------------------------------------------" << endl;
 }
 
@@ -61,6 +62,23 @@ void calculator() {
 void hi() {
     wcout << L"Hi!" << '\n';
     wcout << L"----------------------------------------------------------" << endl;
+}
+
+void FUNHacking() {
+    printMessage(L"no", L"Enter: ", L"Введите username вашей жертвы: ");
+    wstring bruh_username;
+
+    wcin >> ws;
+
+    getline(wcin, bruh_username);
+
+    printMessage(L"no", L"Reason?: ", L"Причина?: ");
+    wstring reason;
+    wcin >> ws;
+
+    getline(wcin, reason);
+
+    
 }
 
 // Камень, ножницы, бумага!
@@ -163,17 +181,22 @@ void settings() {
     int d;
 
     wcout << L"What do you want to customize?\n1 - Profile\n2 - Language\n3 - Console Color\n";
+    wcout << L"Enter: ";
     cin >> a;
 
     if (a == 1) {
-        wstring new_username;
         wcout << L"New username: ";
-        wcin >> new_username;
+        wstring new_username;
+        wcin >> ws;
+
+        getline(wcin, new_username);
 
         EditData(L"UserName", new_username);
+        ReadData();
     } 
     else if (a == 2) {
         wcout << L"RU - Russian\nEN - English\n";
+        wcout << L"Enter: ";
         wcin >> b;
 
         if (b == L"RU") {
@@ -184,17 +207,20 @@ void settings() {
             EditData(L"Language", L"English");
             wcout << L"----------------------------------------------------------" << endl;
         }
+        ReadData();
     } 
     else if (a == 3) {
         wcout << L"[0 - 9] - Console Color\n[0 - 9] - Text Color\n";
-        wcout << L"Type in: ";
+        wcout << L"Type in (Console Color): ";
         cin >> c;
-        wcout << L"Type in: ";
+        wcout << L"Type in (Text Color): ";
         cin >> d;
 
         if (c >= 0 && c <= 9 && d >= 0 && d <= 9) {
             string colorCode = "color " + to_string(c) + to_string(d);
+            wstring colormoment = to_wstring(c) + to_wstring(d);
             system(colorCode.c_str());
+            EditData(L"ColorsConsole", colormoment);
             wcout << L"----------------------------------------------------------" << endl;
         }
     } 
@@ -212,44 +238,36 @@ void DOSVersion() {
 
 // Повторялка
 void say() {
-    wstring say_text;
+    printMessage(L"no", L"Enter text to say: ", L"Введите текст, который должен быть сказан: ");
 
-    if (language == L"Russian") {
+    /*if (language == L"Russian") {
         wcout << L"Введите текст, который должен быть сказан: ";
     }
     else {
         wcout << L"Enter text to say: ";
-    }
+    }*/
 
-    wcin.ignore();
+    wstring say_text;
+    wcin >> ws;
     getline(wcin, say_text);
+
     wcout << say_text << '\n';
     wcout << L"----------------------------------------------------------" << endl;
 }
 
 // Шуточное удаления пользователя из реал лайф
 void FUNdelete() {
+    printMessage(L"no", L"Write the username of the user you want to delete: ", L"Напишите username пользователя, которого вы хотите удалить: ");
+    
     wstring d_user;
+    wcin >> ws;
+    getline(wcin, d_user);
+
+    printMessage(L"no", L"The reason you want to delete the user?: ", L"Напишите причину удаления пользователя: ");
+    
     wstring text;
-
-    if (language == L"Russian") {
-        wcout << L"Напишите username пользователя, которого вы хотите удалить: ";
-    }
-    else {
-        wcout << L"Write the username of the user you want to delete: ";
-    }
-
-    cin.ignore();
-    wcin >> d_user;
-
-    if (language == L"Russian") {
-        wcout << L"Напишите причину удаления пользователя: ";
-    }
-    else {
-        wcout << L"The reason you want to delete the user?: ";
-    }
-
-    wcin >> text;
+    wcin >> ws;
+    getline(wcin, text);
 
     if (language == L"Russian") {
         wcout << L"Начинаем процесс удаления юзера \"" << d_user << L"\"..." << L'\n';
@@ -259,6 +277,8 @@ void FUNdelete() {
     }
 
     Sleep(2000);
+
+    printMessage(L"no", L"Enter text to say: ", L"Введите текст, который должен быть сказан: ");
 
     if (language == L"Russian") {
         wcout << L"Пользователь был успешно удалён по причине: \"" << text << L"\"" << L'\n';

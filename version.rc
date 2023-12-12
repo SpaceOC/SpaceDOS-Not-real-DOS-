@@ -1,0 +1,35 @@
+// -------------------------------------------------------------------------
+#include <windows.h> 
+ 
+// 
+// Version Information resources 
+// 
+LANGUAGE 0, SUBLANG_NEUTRAL 
+1 VERSIONINFO 
+ FILEVERSION 0,0,1,0
+ PRODUCTVERSION 0,0,1,0 
+{ 
+ BLOCK "StringFileInfo" 
+ { 
+ BLOCK "08000025" 
+ { 
+ VALUE "Comments", "My first program in C++" 
+ VALUE "CompanyName", "SpaceOCYT" 
+ VALUE "FileDescription", "Just SpaceDOS, which was released up to version 1.0 Alpha" 
+ VALUE "FileVersion", "1.0 Alpha" 
+ VALUE "InternalName", "SpaceDOS" 
+ VALUE "LegalCopyright", "Copyright (C) 2023 SpaceOCYT" 
+ VALUE "LegalTrademarks", "Copyright (C) 2023 SpaceOCYT" 
+ VALUE "OriginalFilename", "SpaceDOS.exe" 
+ VALUE "PrivateBuild", "Null" 
+ VALUE "ProductName", "SpaceDOS" 
+ VALUE "ProductVersion", "1.0 Alpha" 
+ VALUE "SpecialBuild", "Released" 
+ } 
+ } 
+ BLOCK "VarFileInfo" 
+ { 
+ VALUE "Translation", 0x0800, 0x0025 
+ } 
+} 
+// -------------------------------------------------------------------------

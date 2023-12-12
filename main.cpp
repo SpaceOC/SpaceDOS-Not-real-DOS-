@@ -11,7 +11,7 @@
 #include "time.h"
 #include "counters.h"
 #include "other.h"
-#include "zmeika.h"
+#include "OOBE.h"
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -36,22 +36,14 @@ extern wstring DefaultLanguage;
 extern wstring DefaultUserName;
 extern wstring language;
 extern wstring username;
+extern wstring VerifedOOBE;
 
-int main(){
-    setlocale(LC_ALL, "");
-
+void DOS() {
     vector<wstring> allowedCommands = {
         L"help", L"logo", L"calculator", L"version", L"exit", 
         L"delete", L"hi", L"say", L"RSP", L"settings", 
-        L"counter", L"time", L"zmeika"
+        L"counter", L"time", L"clear"
     };
-
-    CreateData();
-    ReadData();
-
-    fakeLoading();
-
-    Sleep(2000);
 
     printMessage(L"yes", L"Welcome to SpaceDOS!", L"Добро пожаловать в SpaceDOS!");
     wcout << L"Version SpaceDOS - [ " << version << L" ]" << L'\n';
@@ -59,30 +51,32 @@ int main(){
     PrintTimeMonth();
 
     while (true){
-        wstring command_input;
-        
-
         if(language == L"Russian"){
             wcout << L"Введите команду: ";
         }
         else{
             wcout << L"Enter command: ";
         }
-        wcin >> command_input;
+
+        wstring command_input;
+        wcin >> ws; // плов: ты провёл сто часов своей жизни чтобы понять, что эта строчка спасёт тебе жопу от wcin.ignore()
+
+        getline(wcin, command_input);
 
         if(command_input == L"delete"){
             FUNdelete();
+        }
+
+        if (command_input == L"clear") {
+            system("cls");
         }
 
         if (command_input == L"time") {
             calculateWorkTime();
         }
 
-        if (command_input == L"zmeika") {
-            Start();
-        }
-
         if(command_input == L"exit"){
+            system("color 07");
             break;
         }
 
@@ -131,4 +125,47 @@ int main(){
             settings();
         }
     }
+}
+
+
+int main(){
+    setlocale(LC_ALL, "");
+
+    CreateData();
+    ReadData();
+
+    vector<wstring> symbolsLoadingDOS = {
+        L"|", L"/", L"-", L"\\"
+    };
+    fakeLoading(symbolsLoadingDOS, 0, L"Loading", L"Loading commands", L"Loading commands", L"Launching SpaceDOS", L"SpaceDOS launched successfully!");
+
+    Sleep(2000);
+
+    if (VerifedOOBE == L"false") {
+        StartOOBE();
+    }
+    if (VerifedOOBE == L"unknown") {
+        while (VerifedOOBE == L"false" || VerifedOOBE == L"unknown") {
+            wcout << L"При проверке произошла ошибка из-за которой вы видите данный текст. Настоятельно рекомендуем заново пройти OOBE, чтобы SpaceDOS не сломался во время работы." << endl << L"1 or OK - Запустить OOBE" << endl << L"2 or SKIP - Дальше использовать SpaceDOS (КРАЙНЕ НЕ РЕКОМЕНДУЕТСЯ)" << endl << L"Введите: ";
+            wstring wtf_moment;
+            wcin >> ws;
+            getline(wcin, wtf_moment);
+
+            if (wtf_moment == L"1" || wtf_moment == L"OK" || wtf_moment == L"Ok" || wtf_moment == L"OK" || wtf_moment == L"Oк") {
+                StartOOBE();
+                break;
+            }
+            if (wtf_moment == L"2" || wtf_moment == L"SKIP" || wtf_moment == L"Skip") {
+                break;
+                DOS();
+            }
+            else {
+                wcout << "Вы ввели неправильно. Повторите: ";
+            }
+        }
+    }
+    if (VerifedOOBE == L"true") {
+        DOS();
+    }
+
 }
