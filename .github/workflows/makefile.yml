@@ -1,11 +1,1 @@
-name: Run Makefile
 
-on: [push, pull_request]
-
-jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Run make
-      run: make
