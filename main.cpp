@@ -77,6 +77,7 @@ void DOS() {
 
         if(command_input == L"exit"){
             system("color 07");
+            
             break;
         }
 
