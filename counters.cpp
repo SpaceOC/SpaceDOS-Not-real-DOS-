@@ -3,45 +3,46 @@
 
 using namespace std;
 
+// Counter
 void counter() {
-    int a;
-    int b;
+    int a; // Минимальное число
+    int b; // Максимальное число
 
     code:
-    wcout << L"----------------------------------------------------------" << endl;
-    wcout << L"Минимальное число: ";
+    cout << "----------------------------------------------------------" << endl;
+    cout << "Минимальное число: ";
     cin >> a;
     a -= 1;
 
-    wcout << L"----------------------------------------------------------" << endl;
-    wcout << L"Максимальное число: ";
+    cout << "----------------------------------------------------------" << endl;
+    cout << "Максимальное число: ";
     cin >> b;
 
-    wcout << L"----------------------------------------------------------" << endl;
-    wofstream file("counter.txt");
+    cout << "----------------------------------------------------------" << endl;
+    ofstream file("counter.txt");
     if (file) {
         while (a!= b) {
             a++;
-            wcout << a << endl;
-            file << a << L'\n';
+            cout << a << endl;
+            file << a << '\n';
         }
         file.close();
     } else {
-        wcout << L"Error opening the data file." << L'\n';
+        cout << "Error opening the data file." << L'\n';
     }
 
-    wcout << L"----------------------------------------------------------" << endl;
-    wcout << L"Дело сделано!" << endl;
-    wcout << L"----------------------------------------------------------" << endl;
-    wstring text;
-    wcout << L"Exit?      ";
-    wcin >> text;
+    cout << "----------------------------------------------------------" << endl;
+    cout << "Дело сделано!" << endl;
+    cout << "----------------------------------------------------------" << endl;
+    string text; // Выбор - выйти из counter или нет
+    cout << L"Exit?      ";
+    cin >> text;
 
-    if (text == L"Yes" || text == L"yes" || text == L"да" || text == L"Да") {
+    if (text == "Yes" || text == "yes" || text == "да" || text == "Да") {
         
-    } else if (text == L"No" || text == L"no" || text == L"Нет" || text == L"нет") {
+    } else if (text == "No" || text == "no" || text == "Нет" || text == "нет") {
         goto code;
     } else {
-        wcout << L"Я тебя не понял" << endl;
+        cout << "Я тебя не понял" << endl;
     }
 }

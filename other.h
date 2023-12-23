@@ -3,5 +3,5 @@
 
 using namespace std;
 
-void fakeLoading(const vector<wstring>& symbols, int index, wstring MessageOne, wstring MessageTwo, wstring MessageThree, wstring Message4, wstring GreatBruh);
-void printMessage(const wstring& what, const wstring& messageEn, const wstring& messageRu);
+void fakeLoading(const vector<string>& symbols, string MessageOne, string MessageTwo, string MessageThree, string Message4, string GreatBruh);
+void printMessage(const bool what, const string& messageEn, const string& messageRu);

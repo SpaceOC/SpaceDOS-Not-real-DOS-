@@ -1,54 +1,77 @@
 #include <iostream>
 #include <windows.h>
-#include <variant>
 #include <string>
 #include <vector>
 #include "data.h"
+#include "error.h"
 
-extern wstring language;
+extern string language;
 
 using namespace std;
 
-void printMessage(const wstring& what, const wstring& messageEn, const wstring& messageRu) {
-    if (language == L"Russian" && what == L"yes") {
-        wcout << messageRu << L'\n';
+/* 
+* true - в конце сообщение будет "\n" (endl); false - не будет
+* messageEn - сообщение на английском
+* messageRu - сообщение на русском
+* Пример: print(true, "Hello world!", "Привет мир!");
+*/
+void printMessage(const bool what, const string& messageEn, const string& messageRu) {
+    if (language == "Russian" && what == true) {
+        cout << messageRu << endl;
     }
-    else if (language == L"English" && what == L"yes") {
-        wcout << messageEn << L'\n';
+    else if (language == "English" && what == true) {
+        cout << messageEn << endl;
     }
-    else if (language == L"Russian" && what == L"no") {
-        wcout << messageRu;
+    else if (language == "Russian" && what == false) {
+        cout << messageRu;
     }
-    else if (language == L"English" && what == L"no") {
-        wcout << messageEn;
+    else if (language == "English" && what == false) {
+        cout << messageEn;
+    }
+    if (language.empty() || what == NULL || language.empty() && what == NULL) {
+        
     }
 }
 
-void fakeLoading(const vector<wstring>& symbols, int index, wstring MessageOne, wstring MessageTwo, wstring MessageThree, wstring Message4, wstring GreatBruh) {
+void LogMessage(bool Done, string Message, int ErrorCode) {
+    if (Done == true) {
+        
+    }
+    else if (Done == false) {
+
+    }
+    else {
+
+    }
+}
+
+// [Фэйковая загрузка]
+void fakeLoading(const vector<string>& symbols, string MessageOne, string MessageTwo, string MessageThree, string Message4, string GreatBruh) {
+    int index = 0; // index
     for (int i = 0; i < 3; i++) {
-        wcout << MessageOne << L" " << symbols[index];
-        wcout.flush();
+        cout << MessageOne << " " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 3; i < 6; i++) {
-        wcout << MessageTwo << L" " << symbols[index];
-        wcout.flush();
+        cout << MessageTwo << " " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 6; i < 8; i++) {
-        wcout << MessageThree << L" " << symbols[index];
-        wcout.flush();
+        cout << MessageThree << " " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     }
     for (int i = 8; i < 10; i++) {
-        wcout << Message4 << L" " << symbols[index];
-        wcout.flush();
+        cout << Message4 << " " << symbols[index];
+        cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
@@ -56,9 +79,9 @@ void fakeLoading(const vector<wstring>& symbols, int index, wstring MessageOne, 
 
     bool errorCondition = false;
     if (errorCondition) {
-        wcout << L"SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << L'\n';
+        cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << '\n';
     }
     else {
-        wcout << GreatBruh << L'\n';
+        cout << GreatBruh << endl;
     }
 };

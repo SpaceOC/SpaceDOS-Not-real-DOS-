@@ -9,31 +9,32 @@
 
 using namespace std;
 
-wstring version = L"1.0 Alpha";
+string version = "1.1 Alpha"; // Версия SpaceDOS
 
-wstring DefaultLanguage = L"English";
-wstring DefaultUserName = L"defaultuser0";
-wstring Default_ColorsConsole = L"07";
-bool Default_VerifedOfOOBE = false;
+string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
+string DefaultUserName = "defaultuser0"; // Стандартное имя пользователя в SpaceDOS
+string Default_ColorsConsole = "07"; // Стандартный цвет консоли и его текста в SpaceDOS
+bool Default_VerifedOfOOBE = false; // Стандартное значение OOBE в SpaceDOS
 
-wstring ColorsConsole;
-wstring VerifedOOBE;
-wstring language;
-wstring username;
+string ColorsConsole;
+string VerifedOOBE;
+string language; // Язык (Не стандартный)
+string username; // Username (Не стандартный)
 
+// Создание базового файла для сохранения стандартных настроек - Language, Username, Verifed of OOBE и Colors Console
 void CreateData() {
-    wifstream file("data.data");
+    ifstream file("data.data");
     if (!file) {
-        wofstream data("data.data");
+        ofstream data("data.data");
         if (data) {
-            data << L"Language: " << DefaultLanguage << L'\n';
-            data << L"UserName: " << DefaultUserName << L'\n';
-            data << L"Verifed Of OBBE: " << Default_VerifedOfOOBE << L'\n';
-            data << L"ColorsConsole: " << Default_ColorsConsole << L'\n';
+            data << "Language: " << DefaultLanguage << '\n';
+            data << "UserName: " << DefaultUserName << '\n';
+            data << "Verifed Of OBBE: " << Default_VerifedOfOOBE << '\n';
+            data << "ColorsConsole: " << Default_ColorsConsole << '\n';
             data.close();
         }
         else {
-            wcout << L"Error opening the data file." << L'\n';
+            cout << "Error opening the data file." << '\n';
         }
     }
     else {
@@ -41,43 +42,44 @@ void CreateData() {
     }
 }
 
+// Функция для прочитывания стандартных данных данных (Language, Username, Verifed of OOBE и Colors Console)
 void ReadData() {
-    wifstream data("data.data");
+    ifstream data("data.data");
     if (data) {
-        wstring line;
+        string line;
         bool foundLanguage = false;
         bool foundUsername = false;
         bool foundOOBE = false;
         bool foundColorsConsole = false;
         while (getline(data, line)) {
-            if (!foundLanguage && line.find(L"Language: ") != wstring::npos) {
+            if (!foundLanguage && line.find("Language: ") != string::npos) {
                 language = line.substr(10);
-                wcout << L"Language: " << language << L'\n';
+                cout << "Language: " << language << '\n';
                 foundLanguage = true;
             }
-            if (!foundUsername && line.find(L"UserName: ") != wstring::npos) {
+            if (!foundUsername && line.find("UserName: ") != string::npos) {
                 username = line.substr(10);
-                wcout << L"Username: " << username << L'\n';
+                cout << "Username: " << username << '\n';
                 foundUsername = true;
             }
-            if (!foundOOBE && line.find(L"Verifed Of OBBE: ") != wstring::npos) {
+            if (!foundOOBE && line.find("Verifed Of OBBE: ") != string::npos) {
                 VerifedOOBE = line.substr(17);
-                if (VerifedOOBE == L"0" || VerifedOOBE == L"false") {
-                    VerifedOOBE = L"false";
+                if (VerifedOOBE == "0" || VerifedOOBE == "false") {
+                    VerifedOOBE = "false";
                 }
-                if (VerifedOOBE == L"1" || VerifedOOBE == L"true") {
-                    VerifedOOBE = L"true";
+                else if (VerifedOOBE == "1" || VerifedOOBE == "true") {
+                    VerifedOOBE = "true";
                 }
                 else {
                     cerr << "Error: Unknown variable" << endl;
-                    VerifedOOBE = L"unknown";
+                    VerifedOOBE = "unknown";
                 }
-                wcout << L"Verifed of OOBE: " << VerifedOOBE << L'\n';
+                cout << "Verifed of OOBE: " << VerifedOOBE << '\n';
                 foundOOBE = true;
             }
-            if (!foundColorsConsole && line.find(L"ColorsConsole: ") != wstring::npos) {
+            if (!foundColorsConsole && line.find("ColorsConsole: ") != string::npos) {
                 ColorsConsole = line.substr(15);
-                if (ColorsConsole.find_first_not_of(L"0123456789")!= wstring::npos) {
+                if (ColorsConsole.find_first_not_of("0123456789")!= string::npos) {
                     cerr << "Error: Invalid characters in input" << endl;
                     system("color 07");
                 }
@@ -86,7 +88,7 @@ void ReadData() {
                         int ColorsBlyat = stoi(ColorsConsole);
                         string colorCodeConsole = "color " + to_string(ColorsBlyat);
                         system(colorCodeConsole.c_str());
-                        wcout << L"ColorsConsole: " << ColorsBlyat << L'\n';
+                        cout << "ColorsConsole: " << ColorsBlyat << '\n';
                         foundColorsConsole = true;
                     }
                     catch (const std::invalid_argument& e) {
@@ -109,19 +111,20 @@ void ReadData() {
         data.close();
     }
     else {
-        wcout << L"Error opening the data file." << std::endl;
+        cout << "Error opening the data file." << std::endl;
     }
 }
 
-void EditData(const wstring& field, const wstring& value) {
-    wifstream inputFile("data.data");
-    wofstream tempFile("temp.data");
+// Функция изменения стандартных данных (Language, Username, Verifed of OOBE и Colors Console) в data.data
+void EditData(const string& field, const string& value) {
+    ifstream inputFile("data.data");
+    ofstream tempFile("temp.data");
     if (inputFile && tempFile) {
-        wstring line;
+        string line;
         bool fieldFound = false;
         while (getline(inputFile, line)) {
-            if (line.find(field) != wstring::npos) {
-                tempFile << field << L": " << value << L'\n';
+            if (line.find(field) != string::npos) {
+                tempFile << field << ": " << value << '\n';
                 fieldFound = true;
             }
             else {
@@ -134,10 +137,10 @@ void EditData(const wstring& field, const wstring& value) {
         rename("temp.data", "data.data");
         
         if (!fieldFound) {
-            wcout << L"Field not found." << L'\n';
+            cout << "Field not found." << '\n';
         }
     }
     else {
-        wcout << L"Error opening the data file." << L'\n';
+        cout << "Error opening the data file." << '\n';
     }
 }

@@ -13,17 +13,17 @@ LANGUAGE 0, SUBLANG_NEUTRAL
  { 
  BLOCK "08000025" 
  { 
- VALUE "Comments", "My first program in C++" 
+ VALUE "Comments", "My first program in C++"
  VALUE "CompanyName", "SpaceOCYT" 
- VALUE "FileDescription", "Just SpaceDOS, which was released up to version 1.0 Alpha" 
- VALUE "FileVersion", "1.0 Alpha" 
+ VALUE "FileDescription", "SpaceDOS [Not real DOS]" 
+ VALUE "FileVersion", "1.1 Alpha" 
  VALUE "InternalName", "SpaceDOS" 
  VALUE "LegalCopyright", "Copyright (C) 2023 SpaceOCYT" 
  VALUE "LegalTrademarks", "Copyright (C) 2023 SpaceOCYT" 
  VALUE "OriginalFilename", "SpaceDOS.exe" 
  VALUE "PrivateBuild", "Null" 
- VALUE "ProductName", "SpaceDOS" 
- VALUE "ProductVersion", "1.0 Alpha" 
+ VALUE "ProductName", "SpaceDOS [Not real DOS]" 
+ VALUE "ProductVersion", "1.1 Alpha" 
  VALUE "SpecialBuild", "Released" 
  } 
  } 
