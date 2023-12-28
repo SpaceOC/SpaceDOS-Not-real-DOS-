@@ -10,6 +10,7 @@
 using namespace std;
 
 // блокнот? 💀💀💀💀💀
+// Блокнота не будет xD
 void notepad() {
     string name_file;
     string data_text;

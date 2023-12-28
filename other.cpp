@@ -28,7 +28,8 @@ void printMessage(const bool what, const string& messageEn, const string& messag
     else if (language == "English" && what == false) {
         cout << messageEn;
     }
-    if (language.empty() || what == NULL || language.empty() && what == NULL) {
+    // Да, я гений 💀💀💀💀💀
+    if (language.empty() && (what != true || what != false ) || language.empty() && (what != true || what != false )) {
         
     }
 }

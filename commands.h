@@ -1,10 +1,5 @@
-void calculator();
-void RSP();
-void notepad();
-void settings();
-void say();
+void hi();
 void help();
 void DOSVersion();
-void hi();
-void FUNdelete();
 void logo();
+void settings();

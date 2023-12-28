@@ -14,10 +14,11 @@ string version = "1.1 Alpha"; // Версия SpaceDOS
 string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
 string DefaultUserName = "defaultuser0"; // Стандартное имя пользователя в SpaceDOS
 string Default_ColorsConsole = "07"; // Стандартный цвет консоли и его текста в SpaceDOS
-bool Default_VerifedOfOOBE = false; // Стандартное значение OOBE в SpaceDOS
+/*bool Default_VerifedOfOOBE = false;*/ // Стандартное значение OOBE в SpaceDOS
 
 string ColorsConsole;
-string VerifedOOBE;
+string RealVersion;
+/*string VerifedOOBE;*/
 string language; // Язык (Не стандартный)
 string username; // Username (Не стандартный)
 
@@ -29,7 +30,8 @@ void CreateData() {
         if (data) {
             data << "Language: " << DefaultLanguage << '\n';
             data << "UserName: " << DefaultUserName << '\n';
-            data << "Verifed Of OBBE: " << Default_VerifedOfOOBE << '\n';
+            data << "Version: " << version << '\n';
+            /*data << "Verifed Of OBBE: " << Default_VerifedOfOOBE << '\n';*/
             data << "ColorsConsole: " << Default_ColorsConsole << '\n';
             data.close();
         }
@@ -49,6 +51,7 @@ void ReadData() {
         string line;
         bool foundLanguage = false;
         bool foundUsername = false;
+        bool foundVersion = false;
         bool foundOOBE = false;
         bool foundColorsConsole = false;
         while (getline(data, line)) {
@@ -62,7 +65,15 @@ void ReadData() {
                 cout << "Username: " << username << '\n';
                 foundUsername = true;
             }
-            if (!foundOOBE && line.find("Verifed Of OBBE: ") != string::npos) {
+            if (!foundVersion && line.find("Version: ") != string::npos) {
+                RealVersion = line.substr(9);
+                cout << "Version: " << RealVersion << '\n';
+                if (RealVersion != version) {
+                    cout << "Чувак! Это что за бархатная версия?" << endl;
+                }
+                foundVersion = true;
+            }
+            /*if (!foundOOBE && line.find("Verifed Of OBBE: ") != string::npos) {
                 VerifedOOBE = line.substr(17);
                 if (VerifedOOBE == "0" || VerifedOOBE == "false") {
                     VerifedOOBE = "false";
@@ -76,7 +87,7 @@ void ReadData() {
                 }
                 cout << "Verifed of OOBE: " << VerifedOOBE << '\n';
                 foundOOBE = true;
-            }
+            }*/
             if (!foundColorsConsole && line.find("ColorsConsole: ") != string::npos) {
                 ColorsConsole = line.substr(15);
                 if (ColorsConsole.find_first_not_of("0123456789")!= string::npos) {
@@ -104,7 +115,7 @@ void ReadData() {
                 foundColorsConsole = true;
                 */
             }
-            if (foundLanguage && foundUsername && foundOOBE && foundColorsConsole) {
+            if (foundLanguage && foundUsername && foundOOBE && foundColorsConsole && foundVersion) {
                 break;
             }
         }
