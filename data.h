@@ -2,6 +2,8 @@
 
 using namespace std;
 
-void CreateData();
-void ReadData();
+void CreateFolders();
+void CreateLogFile();
+void CreateDataFile();
+void ReadDataFile();
 void EditData(const string& field, const string& value);

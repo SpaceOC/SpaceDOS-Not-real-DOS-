@@ -1,13 +1,29 @@
 // Даже не спрашивайте почему тут так много библиотек (или как там их называть)....
 #include <iostream>
-#include <windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <locale>
+#endif
+
+#include <chrono>
+#include <thread>
 #include <fstream>
 #include <locale>
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <filesystem>
+
+#ifdef _WIN32
+    #include <shellapi.h> // ..............
+#else
+    #include <cstdlib>
+#endif
+
 //#include "Other/Notepad.h"
-#include "Games/Simple_Games/RSP.h"
+#include "RSP.h"
 #include "commands.h"
 #include "data.h"
 #include "time.h"
@@ -25,26 +41,28 @@ extern string DefaultLanguage;
 extern string DefaultUserName;
 extern string language;
 extern string username;
-extern string VerifedOOBE;
+extern string Debug_Mode;
 
 // DOS
 void DOS() {
     vector<string> allowedCommands = { // Доступные команды
-        "help", "logo", "calculator", "version", "exit", 
+        "help", "help ", "logo", "calculator", "version", "exit", 
         "hi", "RSP", "settings", 
-        "counter", "time", "clear"
+        "counter", "time", "clear", "source code"
     };
 
     printMessage(true, "Welcome to SpaceDOS!", "Добро пожаловать в SpaceDOS!");
     cout << "Version SpaceDOS - [ " << version << " ]" << '\n';
 
+    LogMessage(true, "SpaceDOS [Not Real DOS] успешно запущен! Он дошёл до функции DOS", "", 000);
+
     PrintTimeMonth();
 
     while (true){
-        if(language == "Russian"){
+        if (language == "Russian"){
             cout << "Введите команду: ";
         }
-        else{
+        else {
             cout << "Enter command: ";
         }
 
@@ -61,25 +79,37 @@ void DOS() {
             calculateWorkTime();
         }
 
-        if(command_input == "exit"){
+        if (command_input == "exit"){
+            LogMessage(true, "Выход из SpaceDOS [Not Real DOS]", "", 000);
             system("color 07");
             break;
         }
 
-        if(command_input == "hi"){
+        if (command_input == "source code") {
+            system("start https://github.com/SpaceOC/SpaceDOS-Not-real-DOS-");
+            LogMessage(true, "Команда \"source code\" была приведена в действие успешно", "", 000);
+        }
+
+        if (command_input == "hi"){
             hi();
         }
 
-        if(command_input == "version"){
+        if (command_input == "version"){
             DOSVersion();
         }
 
-        if(command_input == "counter"){
+        if (command_input == "counter"){
             counter();
         }
 
-        if(command_input == "help"){
-            help();
+        if (command_input.substr(0, 5) == "help "){
+            string CommandLmao = command_input.substr(5);
+            help(CommandLmao);
+        }
+
+        if (command_input == "help") {
+            string EmptyCommandMoment = "";
+            help(EmptyCommandMoment);
         }
 
         if (find(allowedCommands.begin(), allowedCommands.end(), command_input) == allowedCommands.end()) {
@@ -90,38 +120,51 @@ void DOS() {
         if (command_input == "calculator") {
         }
 
-        /*if(command_input == "RSP"){ // Rock, Scissors, Paper // Да.. Я не знаю как по другому написать. У меня не работает просто, если напишу Rock, Scissors, Paper вместо "RSP"
+        if (command_input == "RSP") {
             RSP();
-        }*/
-
-        if (command_input == "logo"){ // Не работает :(
-            logo();
         }
 
-        if (command_input == "notepad") {
-           // notepad();
+        if (command_input == "logo"){
+            logo();
         }
 
         if (command_input == "settings") {
             settings();
+        }
+
+        if (command_input == "solider2") {
+            for (int i = 0; i < 6; i++) {
+                cout << "Solider2 is SUS" << endl;
+            };
         }
     }
 }
 
 
 int main(){
-    SetConsoleOutputCP(65001);
-    SetConsoleCP(65001);
+    CreateFolders();
+    CreateLogFile();
+    CreateDataFile();
+    ReadDataFile();
 
-    CreateData();
-    ReadData();
+    #ifdef _WIN32
+        SetConsoleOutputCP(65001);
+        SetConsoleCP(65001);
+        LogMessage(true, "Операционная система - Windows | Используется windows.h для настройки командной строки", "", 000);
+    #else
+        locale::global(locale("en_US.UTF-8"));
+        cout.imbue(locale());
+        cin.imbue(locale());
+        LogMessage(true, "Операционная система - не Windows | Используется locale для настройки командной строки", "", 000);
+    #endif
+    
 
     vector<string> symbolsLoadingDOS = { // Символы фэйковой загрузки DOS
         "|", "/", "-", "\\"
     };
     fakeLoading(symbolsLoadingDOS, "Loading", "Loading commands", "Loading commands", "Launching SpaceDOS", "SpaceDOS launched successfully!");
 
-    Sleep(100);
+    this_thread::sleep_for(std::chrono::seconds(1));
 
     DOS();
 }

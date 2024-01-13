@@ -1,5 +1,7 @@
+#include <iostream>
+
 void hi();
-void help();
+void help(std::string commandMoment);
 void DOSVersion();
 void logo();
 void settings();

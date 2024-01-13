@@ -1,38 +1,77 @@
 #include <iostream>
 #include <windows.h>
-#include <fstream>
 #include <locale>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <filesystem>
+#include "other.h"
 
 using namespace std;
+using namespace filesystem;
 
-string version = "1.1 Alpha"; // Версия SpaceDOS
+string version = "1.2 Alpha"; // Версия SpaceDOS
 
 string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
-string DefaultUserName = "defaultuser0"; // Стандартное имя пользователя в SpaceDOS
-string Default_ColorsConsole = "07"; // Стандартный цвет консоли и его текста в SpaceDOS
-/*bool Default_VerifedOfOOBE = false;*/ // Стандартное значение OOBE в SpaceDOS
+string DefaultUserName = "User"; // Стандартное имя пользователя в SpaceDOS
+string Debug_Mode_Default = "false"; // Дебаг моде (Великий стандарт от рукожопа)
 
-string ColorsConsole;
 string RealVersion;
-/*string VerifedOOBE;*/
 string language; // Язык (Не стандартный)
 string username; // Username (Не стандартный)
+string Debug_Mode; // Дебаг моде (Не стандартный)
+
+path dataFilePath = "Data/data.data"; // Путь для файла с данными
+path logFilePath = "Data/logs.data"; // Путь для файла с логами (Начинает работать, если включить дебаг моде)
+path dataTempFilePath = "Data/tempData.data"; // Путь для временного файла с новыми данными
+
+void CreateFolders() {
+    create_directory("Addons"); // Создание папки Addons (Боже зачем я всё комментирую xD)
+    create_directory("Data");
+    create_directory("Temp");
+    create_directory("Music");
+    create_directory("Texts");
+}
+
+// Проверка модов и файла AddonsList.json
+void CheckMods() {
+    string path = "Addons/AddonsList.json";
+    if (exists(path)) {
+        LogMessage(true, "Файл \"AddonsList.json\" найден", "", 000); // М-да.... Ничего путного я пока что не придумал для LogMessage 💀💀💀
+    } 
+    else {
+        LogMessage(true, "Файл \"AddonsList.json\" не найден", "", 000);
+    }
+}
+
+// Создание файла с логами
+void CreateLogFile() {
+    ifstream file(logFilePath);
+    if (!file && Debug_Mode == "true") {
+        ofstream data(logFilePath);
+        if (data) {
+            data.close();
+        }
+        else {
+            cout << "Error opening the data file." << '\n';
+        }
+    }
+    else {
+        file.close();
+    }
+}
 
 // Создание базового файла для сохранения стандартных настроек - Language, Username, Verifed of OOBE и Colors Console
-void CreateData() {
-    ifstream file("data.data");
+void CreateDataFile() {
+    ifstream file(dataFilePath);
     if (!file) {
-        ofstream data("data.data");
+        ofstream data(dataFilePath);
         if (data) {
             data << "Language: " << DefaultLanguage << '\n';
             data << "UserName: " << DefaultUserName << '\n';
             data << "Version: " << version << '\n';
-            /*data << "Verifed Of OBBE: " << Default_VerifedOfOOBE << '\n';*/
-            data << "ColorsConsole: " << Default_ColorsConsole << '\n';
+            data << "Debug Mode: " << Debug_Mode_Default << '\n';
             data.close();
         }
         else {
@@ -45,15 +84,14 @@ void CreateData() {
 }
 
 // Функция для прочитывания стандартных данных данных (Language, Username, Verifed of OOBE и Colors Console)
-void ReadData() {
-    ifstream data("data.data");
+void ReadDataFile() {
+    ifstream data(dataFilePath);
     if (data) {
         string line;
         bool foundLanguage = false;
         bool foundUsername = false;
         bool foundVersion = false;
-        bool foundOOBE = false;
-        bool foundColorsConsole = false;
+        bool foundDebug_Mode = false;
         while (getline(data, line)) {
             if (!foundLanguage && line.find("Language: ") != string::npos) {
                 language = line.substr(10);
@@ -68,54 +106,17 @@ void ReadData() {
             if (!foundVersion && line.find("Version: ") != string::npos) {
                 RealVersion = line.substr(9);
                 cout << "Version: " << RealVersion << '\n';
-                if (RealVersion != version) {
+                /*if (RealVersion != version) {
                     cout << "Чувак! Это что за бархатная версия?" << endl;
-                }
+                }*/
                 foundVersion = true;
             }
-            /*if (!foundOOBE && line.find("Verifed Of OBBE: ") != string::npos) {
-                VerifedOOBE = line.substr(17);
-                if (VerifedOOBE == "0" || VerifedOOBE == "false") {
-                    VerifedOOBE = "false";
-                }
-                else if (VerifedOOBE == "1" || VerifedOOBE == "true") {
-                    VerifedOOBE = "true";
-                }
-                else {
-                    cerr << "Error: Unknown variable" << endl;
-                    VerifedOOBE = "unknown";
-                }
-                cout << "Verifed of OOBE: " << VerifedOOBE << '\n';
-                foundOOBE = true;
-            }*/
-            if (!foundColorsConsole && line.find("ColorsConsole: ") != string::npos) {
-                ColorsConsole = line.substr(15);
-                if (ColorsConsole.find_first_not_of("0123456789")!= string::npos) {
-                    cerr << "Error: Invalid characters in input" << endl;
-                    system("color 07");
-                }
-                else {
-                    try {
-                        int ColorsBlyat = stoi(ColorsConsole);
-                        string colorCodeConsole = "color " + to_string(ColorsBlyat);
-                        system(colorCodeConsole.c_str());
-                        cout << "ColorsConsole: " << ColorsBlyat << '\n';
-                        foundColorsConsole = true;
-                    }
-                    catch (const std::invalid_argument& e) {
-                        cerr << "Error occurred: " << e.what() << endl;
-                        system("color 07");
-                    }
-                }
-                /*
-                int ColorsBlyat = stoi(ColorsConsole);
-                string colorCodeConsole = "color " + to_string(ColorsBlyat);
-                system(colorCodeConsole.c_str());
-                wcout << L"ColorsConsole: " << ColorsBlyat << L'\n';
-                foundColorsConsole = true;
-                */
+            if (!foundDebug_Mode && line.find("Debug Mode: ") != string::npos) {
+                Debug_Mode = line.substr(12);
+                cout << "Debug Mode: " << Debug_Mode << '\n';
+                foundDebug_Mode = true;
             }
-            if (foundLanguage && foundUsername && foundOOBE && foundColorsConsole && foundVersion) {
+            if (foundLanguage && foundUsername && foundVersion && foundDebug_Mode) {
                 break;
             }
         }
@@ -126,27 +127,26 @@ void ReadData() {
     }
 }
 
-// Функция изменения стандартных данных (Language, Username, Verifed of OOBE и Colors Console) в data.data
+// Функция изменения стандартных данных (Language и Username) в data.data
 void EditData(const string& field, const string& value) {
-    ifstream inputFile("data.data");
-    ofstream tempFile("temp.data");
+    ifstream inputFile(dataFilePath);
+    ofstream tempFile(dataTempFilePath);
     if (inputFile && tempFile) {
         string line;
         bool fieldFound = false;
         while (getline(inputFile, line)) {
-            if (line.find(field) != string::npos) {
-                tempFile << field << ": " << value << '\n';
+            if (line.find(field)!= string::npos) {
+                tempFile << field << ": " << value << endl;
                 fieldFound = true;
             }
             else {
-                tempFile << line << L'\n';
+                tempFile << line << '\n';
             }
         }
         inputFile.close();
         tempFile.close();
-        remove("data.data");
-        rename("temp.data", "data.data");
-        
+        remove(dataFilePath);
+        rename(dataTempFilePath, dataFilePath);
         if (!fieldFound) {
             cout << "Field not found." << '\n';
         }

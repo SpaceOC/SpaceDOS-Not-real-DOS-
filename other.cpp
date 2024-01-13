@@ -1,13 +1,21 @@
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <iomanip>
+#include <filesystem>
+#include <conio.h>
 #include "data.h"
-#include "error.h"
-
-extern string language;
 
 using namespace std;
+using namespace filesystem;
+
+extern string language;
+extern string Debug_Mode;
+
+extern path logFilePath;
 
 /* 
 * true - в конце сообщение будет "\n" (endl); false - не будет
@@ -29,20 +37,68 @@ void printMessage(const bool what, const string& messageEn, const string& messag
         cout << messageEn;
     }
     // Да, я гений 💀💀💀💀💀
-    if (language.empty() && (what != true || what != false ) || language.empty() && (what != true || what != false )) {
-        
+    else if (language.empty() && (what != true || what != false ) || language.empty() && (what != true || what != false )) {
+        cout << "Error!" << endl;
     }
 }
 
-void LogMessage(bool Done, string Message, int ErrorCode) {
-    if (Done == true) {
-        
+void LogMessage(bool Done, string Message_RU, string Message_EN, int ErrorCode) {
+    if (Done == true && Debug_Mode == "true") {
+        ofstream logFile(logFilePath, ios::app);
+        if (logFile.is_open()) {
+            auto now = chrono::system_clock::now();
+            time_t currentTime = chrono::system_clock::to_time_t(now);
+            tm timeInfo;
+            #if defined(_WIN32)
+                localtime_s(&timeInfo, &currentTime);
+            #else
+                localtime_r(&currentTime, &timeInfo);
+            #endif
+
+            char buffer[80];
+            strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
+
+            if (language == "Russian") {
+                logFile << "[Log | Done] | [Time: " << buffer << " ] " << Message_RU << endl;
+            }
+            if (language == "English") {
+                logFile << "[Log | Done] | [Time: " << buffer << " ] " << Message_EN << endl;
+            }
+            logFile.close();
+        } else {
+            cout << "Error" << endl;
+        }
     }
-    else if (Done == false) {
+    else if (Done == false && Debug_Mode == "true") {
+        ofstream logFile(logFilePath, ios::app);
+        if (logFile.is_open()) {
+            auto now = chrono::system_clock::now();
+            time_t currentTime = chrono::system_clock::to_time_t(now);
+            tm timeInfo;
+            #if defined(_WIN32)
+                localtime_s(&timeInfo, &currentTime);
+            #else
+                localtime_r(&currentTime, &timeInfo);
+            #endif
+
+            char buffer[80];
+            strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
+
+            if (language == "Russian") {
+                logFile << "[Log | Error] | [Time: " << buffer << " ] " << Message_RU << endl;
+            }
+            if (language == "English") {
+                logFile << "[Log | Error] | [Time: " << buffer << " ] " << Message_EN << endl;
+            }
+            logFile.close();
+        } else {
+            cout << "Error" << endl;
+        }
+    }
+    else if ((Done == true || Done == false) && Debug_Mode == "false") {
 
     }
     else {
-
     }
 }
 
@@ -54,35 +110,56 @@ void fakeLoading(const vector<string>& symbols, string MessageOne, string Messag
         cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == 27 || key == 8 || key == 32) {
+                std::cout << std::endl << "Loading interrupted by user." << std::endl;
+                return;
+            }
+        }
+        system("cls");
     }
     for (int i = 3; i < 6; i++) {
         cout << MessageTwo << " " << symbols[index];
         cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == 27 || key == 8 || key == 32) {
+                std::cout << std::endl << "Loading interrupted by user." << std::endl;
+                return;
+            }
+        }
+        system("cls");
     }
     for (int i = 6; i < 8; i++) {
         cout << MessageThree << " " << symbols[index];
         cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == 27 || key == 8 || key == 32) {
+                std::cout << std::endl << "Loading interrupted by user." << std::endl;
+                return;
+            }
+        }
+        system("cls");
     }
     for (int i = 8; i < 10; i++) {
         cout << Message4 << " " << symbols[index];
         cout.flush();
         index = (index + 1) % 4;
         Sleep(1000);
-        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        if (_kbhit()) {
+            char key = _getch();
+            if (key == 27 || key == 8 || key == 32) {
+                std::cout << std::endl << "Loading interrupted by user." << std::endl;
+                return;
+            }
+        }
+        system("cls");
     }
-
-    bool errorCondition = false;
-    if (errorCondition) {
-        cout << "SpaceDOS launched with serious errors. Apologies for the inconvenience. Here is the error:" << '\n';
-    }
-    else {
-        cout << GreatBruh << endl;
-    }
+    cout << GreatBruh << endl;
 };

@@ -8,7 +8,6 @@ void counter() {
     int a; // Минимальное число
     int b; // Максимальное число
 
-    code:
     cout << "----------------------------------------------------------" << endl;
     cout << "Минимальное число: ";
     cin >> a;
@@ -41,7 +40,7 @@ void counter() {
     if (text == "Yes" || text == "yes" || text == "да" || text == "Да") {
         
     } else if (text == "No" || text == "no" || text == "Нет" || text == "нет") {
-        goto code;
+        counter();
     } else {
         cout << "Я тебя не понял" << endl;
     }
