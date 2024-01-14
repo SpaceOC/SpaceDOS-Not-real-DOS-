@@ -48,20 +48,20 @@ void help(string commandMoment) {
         for (const auto& command : CommandsTextHelp_RU) {
             cout << command << endl;
         }
-        LogMessage(true, "Команда \"help\" вывела весь список команд (на русском языке) успешно", "", 000);
+        LogMessage("DONE", {"", "Команда \"help\" вывела весь список команд (на русском языке) успешно"}, 000);
     }
     else if (commandMoment.empty() and language == "English") {
         for (const auto& command : CommandsTextHelp_EN) {
             cout << command << endl;
         }
-        LogMessage(true, "Команда \"help\" вывела весь список команд (на английском языке) успешно", "", 000);
+        LogMessage("DONE", {"", "Команда \"help\" вывела весь список команд (на английском языке) успешно"}, 000);
     }
     else {
         if (language == "Russian") {
             for (const auto& command : CommandsTextHelp_RU) {
                 if (command.find(commandMoment)!= string::npos) {
                     cout << command << endl;
-                    LogMessage(true, "Команда \"help\" вывела \"" + command + "\" (на русском языке) успешно", "", 000);
+                    LogMessage("DONE", {"", "Команда \"help\" вывела \"" + command + "\" (на русском языке) успешно"}, 000);
                 }
             }
         }
@@ -69,13 +69,13 @@ void help(string commandMoment) {
             for (const auto& command : CommandsTextHelp_EN) {
                 if (command.find(commandMoment)!= string::npos) {
                     cout << command << endl;
-                    LogMessage(true, "Команда \"help\" вывела \"" + command + "\" (на английском языке) успешно", "", 000);
+                    LogMessage("DONE", {"", "Команда \"help\" вывела \"" + command + "\" (на английском языке) успешно"}, 000);
                 }
             }
         }
     }
     cout << "----------------------------------------------------------" << endl;
-    LogMessage(true, "Работа команды \"help\" завершена успешно", "", 000);
+    LogMessage("DONE", {"", "Работа команды \"help\" завершена успешно"}, 000);
 }
 
 // Настройки
@@ -85,7 +85,7 @@ void settings() {
     int c;
     int d;
 
-    cout << "What do you want to customize?\n1 - Profile\n2 - Language\n3 - Console Color\n";
+    cout << "What do you want to customize? \n\t1 - Profile\n\t2 - Language\n\t3 - Console Color\n\t4 - Debug Mode\n";
     cout << "Enter: ";
     cin >> a;
 
@@ -107,12 +107,12 @@ void settings() {
         if (b == "RU") {
             EditData("Language", "Russian");
             cout << "----------------------------------------------------------" << endl;
-            LogMessage(true, "Язык сменён на русский", "", 000);
+            LogMessage("DONE", {"", "Язык сменён на русский"}, 000);
         } 
         else if (b == "EN") {
             EditData("Language", "English");
             cout << "----------------------------------------------------------" << endl;
-            LogMessage(true, "Язык сменён на английский", "", 000);
+            LogMessage("DONE", {"", "Язык сменён на английский"}, 000);
         }
         ReadDataFile();
     } 
@@ -129,13 +129,26 @@ void settings() {
             system(colorCode.c_str());
             EditData("ColorsConsole", colormoment);
             cout << "----------------------------------------------------------" << endl;
-            LogMessage(true, "Цвет командой строки изменён. Вот код: " + colormoment, "", 000);
+            LogMessage("DONE", {"", "Цвет командой строки изменён. Вот код: " + colormoment}, 000);
         }
     } 
     else if (a == 4) {
-        cout << "ТЫ ЧТО СМОТРИШЬ?! " << endl;
+        cout << "True/ON | False/OFF" << endl;
+        cout << "Enter: ";
+        cin >> b;
+
+        if (b == "True" || b == "ON") {
+            EditData("Debug Mode", "true");
+            cout << "----------------------------------------------------------" << endl;
+            LogMessage("DONE", {"", "Debug Mode включен"}, 000);
+        } 
+        else if (b == "False" || b == "OFF") {
+            EditData("Debug Mode", "false");
+            cout << "----------------------------------------------------------" << endl;
+            LogMessage("DONE", {"", "Debug Mode выключен"}, 000);
+        }
+        ReadDataFile();
         cout << "----------------------------------------------------------" << endl;
-        LogMessage(true, "Ээээ. Это ещё не готово", "", 000);
     }
 }
 
@@ -143,14 +156,14 @@ void settings() {
 void hi() {
     cout << "Hi!" << '\n';
     cout << "----------------------------------------------------------" << endl;
-    LogMessage(true, "Успешно было отправлено сообщение \"Hi!\" с помощью команды \"hi\"", "", 000);
+    LogMessage("DONE", {"", "Успешно было отправлено сообщение \"Hi!\" с помощью команды \"hi\""}, 000);
 }
 
 // version
 void DOSVersion() {
     cout << "SpaceDOS " << "[ " << version << " ]" << '\n';
     cout << "----------------------------------------------------------" << endl;
-    LogMessage(true, "Успешно было отправлено сообщение о версии SpaceDOS с помощью команды \"version\"", "", 000);
+    LogMessage("DONE", {"", "Успешно было отправлено сообщение о версии SpaceDOS с помощью команды \"version\""}, 000);
 }
 
 // Лого
@@ -180,5 +193,5 @@ void logo() {
     for (auto s : vs)
         std::cout << s << "\n";
     cout << "----------------------------------------------------------" << endl;
-    LogMessage(true, "Логотип SpaceDOS успешно отправлен", "", 000);
+    LogMessage("DONE", {"", "Логотип SpaceDOS успешно отправлен"}, 000);
 }

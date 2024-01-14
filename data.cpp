@@ -11,7 +11,7 @@
 using namespace std;
 using namespace filesystem;
 
-string version = "1.2 Alpha"; // Версия SpaceDOS
+string version = "1.3 Alpha"; // Версия SpaceDOS
 
 string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
 string DefaultUserName = "User"; // Стандартное имя пользователя в SpaceDOS
@@ -35,13 +35,13 @@ void CreateFolders() {
 }
 
 // Проверка модов и файла AddonsList.json
-void CheckMods() {
+void CheckAddons() {
     string path = "Addons/AddonsList.json";
     if (exists(path)) {
-        LogMessage(true, "Файл \"AddonsList.json\" найден", "", 000); // М-да.... Ничего путного я пока что не придумал для LogMessage 💀💀💀
+        LogMessage("DONE", {"", "Файл \"AddonsList.json\" найден"}, 000); // М-да.... Ничего путного я пока что не придумал для LogMessage 💀💀💀
     } 
     else {
-        LogMessage(true, "Файл \"AddonsList.json\" не найден", "", 000);
+        LogMessage("ERROR", {"", "Файл \"AddonsList.json\" не найден"}, 404);
     }
 }
 
@@ -95,16 +95,18 @@ void ReadDataFile() {
         while (getline(data, line)) {
             if (!foundLanguage && line.find("Language: ") != string::npos) {
                 language = line.substr(10);
-                cout << "Language: " << language << '\n';
+                LogMessage("DONE", {"", "Язык SpaceDOS на данный момент - " + language}, 000);
                 foundLanguage = true;
             }
             if (!foundUsername && line.find("UserName: ") != string::npos) {
                 username = line.substr(10);
+                LogMessage("DONE", {"", "Текущий никнейм пользователя - " + username}, 000);
                 cout << "Username: " << username << '\n';
                 foundUsername = true;
             }
             if (!foundVersion && line.find("Version: ") != string::npos) {
                 RealVersion = line.substr(9);
+                LogMessage("DONE", {"", "Текущая версия SpaceDOS - " + version}, 000);
                 cout << "Version: " << RealVersion << '\n';
                 /*if (RealVersion != version) {
                     cout << "Чувак! Это что за бархатная версия?" << endl;
@@ -117,6 +119,7 @@ void ReadDataFile() {
                 foundDebug_Mode = true;
             }
             if (foundLanguage && foundUsername && foundVersion && foundDebug_Mode) {
+                LogMessage("DONE", {"", "Всё найдено - версия, юзернейм, язык и Debug Mode"}, 000);
                 break;
             }
         }

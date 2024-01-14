@@ -54,7 +54,7 @@ void DOS() {
     printMessage(true, "Welcome to SpaceDOS!", "Добро пожаловать в SpaceDOS!");
     cout << "Version SpaceDOS - [ " << version << " ]" << '\n';
 
-    LogMessage(true, "SpaceDOS [Not Real DOS] успешно запущен! Он дошёл до функции DOS", "", 000);
+    LogMessage("DONE", {"", "SpaceDOS [Not Real DOS] успешно запущен"}, 000);
 
     PrintTimeMonth();
 
@@ -80,14 +80,14 @@ void DOS() {
         }
 
         if (command_input == "exit"){
-            LogMessage(true, "Выход из SpaceDOS [Not Real DOS]", "", 000);
+            LogMessage("DONE", {"", "Выход из SpaceDOS [Not Real DOS]"}, 000);
             system("color 07");
             break;
         }
 
         if (command_input == "source code") {
             system("start https://github.com/SpaceOC/SpaceDOS-Not-real-DOS-");
-            LogMessage(true, "Команда \"source code\" была приведена в действие успешно", "", 000);
+            LogMessage("DONE", {"", "Команда \"source code\" была приведена в действие успешно"}, 000);
         }
 
         if (command_input == "hi"){
@@ -131,12 +131,6 @@ void DOS() {
         if (command_input == "settings") {
             settings();
         }
-
-        if (command_input == "solider2") {
-            for (int i = 0; i < 6; i++) {
-                cout << "Solider2 is SUS" << endl;
-            };
-        }
     }
 }
 
@@ -150,12 +144,12 @@ int main(){
     #ifdef _WIN32
         SetConsoleOutputCP(65001);
         SetConsoleCP(65001);
-        LogMessage(true, "Операционная система - Windows | Используется windows.h для настройки командной строки", "", 000);
+        LogMessage("DONE", {"", "Операционная система - Windows | Используется windows.h для настройки командной строки"}, 000);
     #else
         locale::global(locale("en_US.UTF-8"));
         cout.imbue(locale());
         cin.imbue(locale());
-        LogMessage(true, "Операционная система - не Windows | Используется locale для настройки командной строки", "", 000);
+        LogMessage("DONE", {"", "Операционная система - не Windows | Используется locale для настройки командной строки"}, 000);
     #endif
     
 

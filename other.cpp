@@ -42,8 +42,8 @@ void printMessage(const bool what, const string& messageEn, const string& messag
     }
 }
 
-void LogMessage(bool Done, string Message_RU, string Message_EN, int ErrorCode) {
-    if (Done == true && Debug_Mode == "true") {
+void LogMessage(string TypeDone, vector<string> Message, int ErrorCode) {
+    if (Debug_Mode == "true") {
         ofstream logFile(logFilePath, ios::app);
         if (logFile.is_open()) {
             auto now = chrono::system_clock::now();
@@ -58,47 +58,31 @@ void LogMessage(bool Done, string Message_RU, string Message_EN, int ErrorCode) 
             char buffer[80];
             strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
 
+            vector<string> Info;
+
+            if (TypeDone == "DONE") {
+                Info = {"", "Данное действие было успешно завершено"};
+            }
+            else if (TypeDone == "ERROR") {
+                Info = {"", "Данное действие было завершено с ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
+            }
+            else if (TypeDone == "WARN") {
+                Info = {"", "Данное действие было завершено или не завершено с незначительными ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
+            }
+            else {
+                Info = {"Unknown", "Неизвестно"};
+            }
+
             if (language == "Russian") {
-                logFile << "[Log | Done] | [Time: " << buffer << " ] " << Message_RU << endl;
+                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[2] << " ] " << Message[2] << endl;
             }
             if (language == "English") {
-                logFile << "[Log | Done] | [Time: " << buffer << " ] " << Message_EN << endl;
+                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[1] << " ] " << Message[1] << endl;
             }
             logFile.close();
         } else {
             cout << "Error" << endl;
         }
-    }
-    else if (Done == false && Debug_Mode == "true") {
-        ofstream logFile(logFilePath, ios::app);
-        if (logFile.is_open()) {
-            auto now = chrono::system_clock::now();
-            time_t currentTime = chrono::system_clock::to_time_t(now);
-            tm timeInfo;
-            #if defined(_WIN32)
-                localtime_s(&timeInfo, &currentTime);
-            #else
-                localtime_r(&currentTime, &timeInfo);
-            #endif
-
-            char buffer[80];
-            strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
-
-            if (language == "Russian") {
-                logFile << "[Log | Error] | [Time: " << buffer << " ] " << Message_RU << endl;
-            }
-            if (language == "English") {
-                logFile << "[Log | Error] | [Time: " << buffer << " ] " << Message_EN << endl;
-            }
-            logFile.close();
-        } else {
-            cout << "Error" << endl;
-        }
-    }
-    else if ((Done == true || Done == false) && Debug_Mode == "false") {
-
-    }
-    else {
     }
 }
 
