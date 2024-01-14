@@ -11,7 +11,7 @@
 using namespace std;
 using namespace filesystem;
 
-string version = "1.3 Alpha"; // Версия SpaceDOS
+string version = "1.3 Alpha - BugFix 1"; // Версия SpaceDOS
 
 string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
 string DefaultUserName = "User"; // Стандартное имя пользователя в SpaceDOS

@@ -34,7 +34,7 @@ void counter() {
     cout << "Дело сделано!" << endl;
     cout << "----------------------------------------------------------" << endl;
     string text; // Выбор - выйти из counter или нет
-    cout << L"Exit?      ";
+    cout << "Exit?      ";
     cin >> text;
 
     if (text == "Yes" || text == "yes" || text == "да" || text == "Да") {
