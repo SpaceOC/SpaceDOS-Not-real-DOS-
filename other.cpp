@@ -23,22 +23,22 @@ extern path logFilePath;
 * messageRu - сообщение на русском
 * Пример: print(true, "Hello world!", "Привет мир!");
 */
-void printMessage(const bool what, const string& messageEn, const string& messageRu) {
+void printMessage(const bool what, const vector<string> Message) {
     if (language == "Russian" && what == true) {
-        cout << messageRu << endl;
+        cout << Message[1] << endl;
     }
     else if (language == "English" && what == true) {
-        cout << messageEn << endl;
+        cout << Message[0] << endl;
     }
     else if (language == "Russian" && what == false) {
-        cout << messageRu;
+        cout << Message[1];
     }
     else if (language == "English" && what == false) {
-        cout << messageEn;
+        cout << Message[0];
     }
     // Да, я гений 💀💀💀💀💀
     else if (language.empty() && (what != true || what != false ) || language.empty() && (what != true || what != false )) {
-        cout << "Error!" << endl;
+        cout << "Error in the function \"printMessage\" | Contact the developer of this application if the error persists" << endl;
     }
 }
 
@@ -61,28 +61,37 @@ void LogMessage(string TypeDone, vector<string> Message, int ErrorCode) {
             vector<string> Info;
 
             if (TypeDone == "DONE") {
-                Info = {"", "Данное действие было успешно завершено"};
+                Info = {"This action was successfully completed", "Данное действие было успешно завершено"};
             }
             else if (TypeDone == "ERROR") {
-                Info = {"", "Данное действие было завершено с ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
+                Info = {"This action was completed with errors. You can find out more about the error code - " + to_string(ErrorCode), "Данное действие было завершено с ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
             }
             else if (TypeDone == "WARN") {
-                Info = {"", "Данное действие было завершено или не завершено с незначительными ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
+                Info = {"This action was completed or not completed with minor errors. You can find out more about the error code - " + to_string(ErrorCode), "Данное действие было завершено или не завершено с незначительными ошибками. Подробнее можно узнать по коду ошибки - " + to_string(ErrorCode)};
+            }
+            else if (TypeDone == "PROCESSING") {
+                Info = {"This action is currently in progress", "Данное действие на данный момент выполняется"};
+            }
+            else if (TypeDone == "INFO") {
+                Info = {"Information", "Информация"};
             }
             else {
                 Info = {"Unknown", "Неизвестно"};
             }
 
             if (language == "Russian") {
-                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[2] << " ] " << Message[2] << endl;
+                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[1] << " ] " << Message[1] << endl;
             }
             if (language == "English") {
-                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[1] << " ] " << Message[1] << endl;
+                logFile << "[Log] | [Time: " << buffer << " ] " << "| [ " << Info[0] << " ] " << Message[0] << endl;
             }
             logFile.close();
         } else {
-            cout << "Error" << endl;
+            printMessage(true, {"LogMessage function error | Contact the developer of this application if the error persists", "Ошибка в работе функции \"LogMessage\" | Обратитесь к разработчику данного приложения, если ошибка не исчезает"});
         }
+    }
+    else {
+        
     }
 }
 

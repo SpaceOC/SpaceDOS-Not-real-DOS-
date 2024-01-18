@@ -1,0 +1,27 @@
+           [EN]
+    SpaceDOS 1.4 Alpha
+- Everything has been translated into English (meaning LogMessage and printMessage, as well as cout)
+- Now almost everywhere printMessage and LogMessage are used instead of cout.
+- Added json.h (My raw json toolkit)
+- Added warning in counter command if you enter too big max number or enter invalid numbers (min number > max number).
+- Updated printMessage | Instead of `const string& MessageRu` and `const string& MessageEn` now `const vector<string> Message`.
+- CheckAddons function has finally been added to `main`
+- Updated `Debug Mode` part
+- Fixed bug in time.cpp | wcout was replaced by cout in lines 69 and 71
+- Fixed bug in LogMessage function
+- A `logo` and its description have been added to the list of the help command
+- And something else...
+
+           [RU]
+    SpaceDOS 1.4 Alpha
+- Всё переведено на английский (имеется ввиду сообщения функций LogMessage и printMessage, а также cout)
+- Теперь ПОЧТИ везде используется printMessage и LogMessage вместо cout
+- Добавлен json.h (Мой сыроватый Json инструментарий)
+- Добавлено предупреждение в команде counter если ввести слишком большое максимальное число или ввести некорректные числа (min number > max number)
+- Обновлена функция printMessage | Вместо `const string& MessageRu` и `const string& MessageEn` теперь `const vector<string> Message`
+- Функция CheckAddons наконец-то была добавлена в `main`
+- Обновлена `Debug Mode` часть
+- Исправлен баг в time.cpp | wcout был заменён на cout в строках под номерами 69 и 71
+- Исправлен баг в функции LogMessage
+- В список команды help было добавлено `logo` и его описание
+- И ещё что-то...

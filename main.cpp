@@ -29,6 +29,7 @@
 #include "time.h"
 #include "counters.h"
 #include "other.h"
+#include "json.h"
 
 // By SpaceOC!!!!!!!!!
 // By SpaceOC!!!!!!!!!
@@ -48,23 +49,25 @@ void DOS() {
     vector<string> allowedCommands = { // Доступные команды
         "help", "help ", "logo", "calculator", "version", "exit", 
         "hi", "RSP", "settings", 
-        "counter", "time", "clear", "source code"
+        "counter", "work_time", "clear", "source code", "time"
     };
 
-    printMessage(true, "Welcome to SpaceDOS!", "Добро пожаловать в SpaceDOS!");
+    printMessage(true, {"Welcome to SpaceDOS!", "Добро пожаловать в SpaceDOS!"});
     cout << "Version SpaceDOS - [ " << version << " ]" << '\n';
 
-    LogMessage("DONE", {"", "SpaceDOS [Not Real DOS] успешно запущен"}, 000);
+    LogMessage("DONE", {"SpaceDOS [Not Real DOS] successfully launched", "SpaceDOS [Not Real DOS] успешно запущен"}, 000);
 
     PrintTimeMonth();
 
     while (true){
-        if (language == "Russian"){
+        printMessage(false, {"Enter command: ", "Введите команду: "});
+
+        /*if (language == "Russian"){
             cout << "Введите команду: ";
         }
         else {
             cout << "Enter command: ";
-        }
+        }*/
 
         string command_input;
         cin >> ws; // плов: ты провёл сто часов своей жизни чтобы понять, что эта строчка спасёт тебе жопу от wcin.ignore()
@@ -75,19 +78,19 @@ void DOS() {
             system("cls");
         }
 
-        if (command_input == "time") {
+        if (command_input == "work_time") {
             calculateWorkTime();
         }
 
         if (command_input == "exit"){
-            LogMessage("DONE", {"", "Выход из SpaceDOS [Not Real DOS]"}, 000);
+            LogMessage("DONE", {"Exiting SpaceDOS [Not Real DOS]", "Выход из SpaceDOS [Not Real DOS]"}, 000);
             system("color 07");
             break;
         }
 
         if (command_input == "source code") {
             system("start https://github.com/SpaceOC/SpaceDOS-Not-real-DOS-");
-            LogMessage("DONE", {"", "Команда \"source code\" была приведена в действие успешно"}, 000);
+            LogMessage("DONE", {"The \"source code\" command was successfully activated.", "Команда \"source code\" была приведена в действие успешно"}, 000);
         }
 
         if (command_input == "hi"){
@@ -141,17 +144,18 @@ int main(){
     CreateDataFile();
     ReadDataFile();
 
+    CheckAddons();
+
     #ifdef _WIN32
         SetConsoleOutputCP(65001);
         SetConsoleCP(65001);
-        LogMessage("DONE", {"", "Операционная система - Windows | Используется windows.h для настройки командной строки"}, 000);
+        LogMessage("DONE", {"Operating System - Windows | Use windows.h to customize the command line", "Операционная система - Windows | Используется windows.h для настройки командной строки"}, 000);
     #else
         locale::global(locale("en_US.UTF-8"));
         cout.imbue(locale());
         cin.imbue(locale());
-        LogMessage("DONE", {"", "Операционная система - не Windows | Используется locale для настройки командной строки"}, 000);
+        LogMessage("DONE", {"Operating system is not Windows | Use locale for command line customization", "Операционная система - не Windows | Используется locale для настройки командной строки"}, 000);
     #endif
-    
 
     vector<string> symbolsLoadingDOS = { // Символы фэйковой загрузки DOS
         "|", "/", "-", "\\"

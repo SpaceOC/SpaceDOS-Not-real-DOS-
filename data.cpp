@@ -11,7 +11,7 @@
 using namespace std;
 using namespace filesystem;
 
-string version = "1.3 Alpha - BugFix 1"; // Версия SpaceDOS
+string version = "1.4 Alpha"; // Версия SpaceDOS
 
 string DefaultLanguage = "English"; // Стандартный язык в SpaceDOS
 string DefaultUserName = "User"; // Стандартное имя пользователя в SpaceDOS
@@ -36,12 +36,29 @@ void CreateFolders() {
 
 // Проверка модов и файла AddonsList.json
 void CheckAddons() {
-    string path = "Addons/AddonsList.json";
+    //string path = "Addons/AddonsList.json";
+    path path = "Addons/AddonsList.txt";
     if (exists(path)) {
-        LogMessage("DONE", {"", "Файл \"AddonsList.json\" найден"}, 000); // М-да.... Ничего путного я пока что не придумал для LogMessage 💀💀💀
+        LogMessage("INFO", {"The file \"AddonsList.txt\" was found.", "Файл \"AddonsList.txt\" найден"}, 000); // М-да.... Ничего путного я пока что не придумал для LogMessage 💀💀💀
+
+        
     } 
     else {
-        LogMessage("ERROR", {"", "Файл \"AddonsList.json\" не найден"}, 404);
+        LogMessage("ERROR", {"The file \"AddonsList.txt\" was not found.", "Файл \"AddonsList.txt\" не найден"}, 404);
+
+        ifstream file(path);
+        if (!file) {
+            ofstream data(path);
+            if (data) {
+                data.close();
+            }
+            else {
+                LogMessage("ERROR", {"Error opening the data file", "Ошибка при открытии файла AddonsList.txt"}, 000);
+            }
+        }
+        else {
+            file.close();
+        }
     }
 }
 
@@ -54,7 +71,7 @@ void CreateLogFile() {
             data.close();
         }
         else {
-            cout << "Error opening the data file." << '\n';
+            LogMessage("ERROR", {"Error opening log file", "Ошибка в открытии лог файла"}, 000);
         }
     }
     else {
@@ -75,7 +92,7 @@ void CreateDataFile() {
             data.close();
         }
         else {
-            cout << "Error opening the data file." << '\n';
+            LogMessage("ERROR", {"Error opening the data file", "Ошибка при открытии файла данных"}, 000);
         }
     }
     else {
@@ -95,23 +112,20 @@ void ReadDataFile() {
         while (getline(data, line)) {
             if (!foundLanguage && line.find("Language: ") != string::npos) {
                 language = line.substr(10);
-                LogMessage("DONE", {"", "Язык SpaceDOS на данный момент - " + language}, 000);
                 foundLanguage = true;
+                LogMessage("DONE", {"SpaceDOS language at the moment: " + language, "Язык SpaceDOS на данный момент - " + language}, 000);
             }
             if (!foundUsername && line.find("UserName: ") != string::npos) {
                 username = line.substr(10);
-                LogMessage("DONE", {"", "Текущий никнейм пользователя - " + username}, 000);
                 cout << "Username: " << username << '\n';
                 foundUsername = true;
+                LogMessage("DONE", {"The user's current nickname: " + username, "Текущий никнейм пользователя - " + username}, 000);
             }
             if (!foundVersion && line.find("Version: ") != string::npos) {
                 RealVersion = line.substr(9);
-                LogMessage("DONE", {"", "Текущая версия SpaceDOS - " + version}, 000);
                 cout << "Version: " << RealVersion << '\n';
-                /*if (RealVersion != version) {
-                    cout << "Чувак! Это что за бархатная версия?" << endl;
-                }*/
                 foundVersion = true;
+                LogMessage("DONE", {"The current version of SpaceDOS: " + version, "Текущая версия SpaceDOS - " + version}, 000);
             }
             if (!foundDebug_Mode && line.find("Debug Mode: ") != string::npos) {
                 Debug_Mode = line.substr(12);
@@ -119,14 +133,14 @@ void ReadDataFile() {
                 foundDebug_Mode = true;
             }
             if (foundLanguage && foundUsername && foundVersion && foundDebug_Mode) {
-                LogMessage("DONE", {"", "Всё найдено - версия, юзернейм, язык и Debug Mode"}, 000);
+                LogMessage("INFO", {"All data found: version, user name, language and debug mode", "Все данные найдены: версия, имя пользователя, язык и режим отладки"}, 000);
                 break;
             }
         }
         data.close();
     }
     else {
-        cout << "Error opening the data file." << std::endl;
+        LogMessage("ERROR", {"Error opening the data file", "Ошибка при открытии файла данных"}, 000);
     }
 }
 
@@ -151,10 +165,10 @@ void EditData(const string& field, const string& value) {
         remove(dataFilePath);
         rename(dataTempFilePath, dataFilePath);
         if (!fieldFound) {
-            cout << "Field not found." << '\n';
+            LogMessage("ERROR", {"Field not found", "Поле не найдено"}, 000);
         }
     }
     else {
-        cout << "Error opening the data file." << '\n';
+        LogMessage("ERROR", {"Error opening the data file", "Ошибка при открытии файла данных"}, 000);
     }
 }
