@@ -3,12 +3,14 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <algorithm>
 #include <ctime>
 #include <fstream>
 #include <cstdlib>
 #include <sstream>
 #include <cmath>
 #include <cctype>
+#include <type_traits>
 #include "data.h"
 #include "other.h"
 
@@ -22,29 +24,31 @@ string description;
 // команда help - показывает все команды
 void help(string commandMoment) {
     vector<string> CommandsTextHelp_RU = { // Команды и их описание на русском
-        " exit      \t Выйти из SpaceDOS",
-        " help      \t Показывает все доступные команды",
-        " settings  \t Настройки",
-        " version   \t Показывает версию этой \"игры\"",
-        " hi        \t Привет!", 
-        " RSP       \t Сыграй в \"Камень, Ножницы, Бумага\"!",
-        " work_time \t Показывает сколько времени работает SpaceDOS [Not Real DOS]",
-        " counter   \t Описание отсутствует", 
-        " clear     \t Очистить командную строку",
-        " logo      \t Показать лого SpaceDOS"
+        " exit         \t Выйти из SpaceDOS",
+        " help         \t Показывает все доступные команды",
+        " settings     \t Настройки",
+        " version      \t Показывает версию этой \"игры\"",
+        " hi           \t Привет!", 
+        " RSP          \t Сыграй в \"Камень, Ножницы, Бумага\"!",
+        " work_time    \t Показывает сколько времени работает SpaceDOS [Not Real DOS]",
+        " counter      \t Описание отсутствует", 
+        " clear        \t Очистить командную строку",
+        " logo         \t Показать лого SpaceDOS",
+        " source code  \t Source code SpaceDOS"
     };
 
     vector<string> CommandsTextHelp_EN = { // Команды и их описание на английском
-        " exit      \t Exit SpaceDOS",
-        " help      \t Shows all available commands",
-        " settings  \t SpaceDOS settings",
-        " version   \t Shows the version of this \"game\"",
-        " hi        \t Hi!", 
-        " RSP       \t Play \"Rock, Paper, Scissors\"!",
-        " work_time \t Shows how long SpaceDOS has been running",
-        " counter   \t No description", 
-        " clear     \t Clear the command line",
-        " logo      \t Show SpaceDOS logo"
+        " exit         \t Exit SpaceDOS",
+        " help         \t Shows all available commands",
+        " settings     \t SpaceDOS settings",
+        " version      \t Shows the version of this \"game\"",
+        " hi           \t Hi!", 
+        " RSP          \t Play \"Rock, Paper, Scissors\"!",
+        " work_time    \t Shows how long SpaceDOS has been running",
+        " counter      \t No description", 
+        " clear        \t Clear the command line",
+        " logo         \t Show SpaceDOS logo",
+        " source code  \t Source code SpaceDOS"
     };
     if (commandMoment.empty() and language == "Russian") {
         for (const auto& command : CommandsTextHelp_RU) {
@@ -82,14 +86,21 @@ void help(string commandMoment) {
 
 // Настройки
 void settings() {
-    int a;
-    string b;
-    int c;
-    int d;
+    // Я не придумал ничего лучше чем заменить int на string.......
+    int a; // Переменная для выбора пользователем | Я устал.... 💀👍
+    string b; // Доп. переменная
+    int c; // Доп. переменная
+    int d; // Доп. переменная
 
     cout << "What do you want to customize? \n\t1 - Profile\n\t2 - Language\n\t3 - Console Color\n\t4 - Debug Mode\n";
     printMessage(false, {"Enter: ", "Введите: "});
-    cin >> a;
+    
+    while(!(cin >> a))
+    {
+        cin.clear();
+        cin.ignore(10000, '\n');
+        printMessage(false, {"Enter: ", "Введите: "});
+    } 
 
     if (a == 1) {
         printMessage(false, {"New username: ", "Новое имя пользователя: "});
@@ -101,6 +112,7 @@ void settings() {
 
         EditData("UserName", new_username);
         ReadDataFile();
+        cout << "----------------------------------------------------------" << endl;
     } 
     else if (a == 2) {
         cout << "RU - Russian\nEN - English\n";
@@ -118,21 +130,34 @@ void settings() {
             LogMessage("DONE", {"The language has been changed to English", "Язык сменён на английский"}, 000);
         }
         ReadDataFile();
+        cout << "----------------------------------------------------------" << endl;
     } 
     else if (a == 3) {
         cout << "[0 - 9] - Console Color\n[0 - 9] - Text Color\n";
         printMessage(false, {"Type in (Console Color): ", "Введите (Console Color): "});
-        cin >> c;
+
+        while(!(cin >> c))
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            printMessage(false, {"Type in (Console Color): ", "Введите (Console Color): "});
+        } 
+
         printMessage(false, {"Type in (Text Color): ", "Введите (Text Color): "});
-        cin >> d;
+
+        while(!(cin >> d))
+        {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            printMessage(false, {"Type in (Text Color): ", "Введите (Text Color): "});
+        } 
 
         if (c >= 0 && c <= 9 && d >= 0 && d <= 9) {
             string colorCode = "color " + to_string(c) + to_string(d);
-            string colormoment(to_string(c) + to_string(d));
             system(colorCode.c_str());
-            EditData("ColorsConsole", colormoment);
+            EditData("ColorsConsole", to_string(c) + to_string(d));
             cout << "----------------------------------------------------------" << endl;
-            LogMessage("DONE", {"The color of the line command has been changed. Here's the code: " + colormoment, "Цвет командой строки изменён. Вот код: " + colormoment}, 000);
+            LogMessage("DONE", {"The color of the line command has been changed. Here's the code: " + to_string(c) + to_string(d), "Цвет командой строки изменён. Вот код: " + to_string(c) + to_string(d)}, 000);
         }
     } 
     else if (a == 4) {

@@ -3,6 +3,5 @@
 
 using namespace std;
 
-void LogMessage(string TypeDone, vector<string> Message, int ErrorCode);
-void fakeLoading(const vector<string>& symbols, string MessageOne, string MessageTwo, string MessageThree, string Message4, string GreatBruh);
-void printMessage(const bool what, const vector<string> Message);
+void LogMessage(const string TypeDone, const vector<string> Message, const int ErrorCode);
+void printMessage(const bool Red, const vector<string> Message);

@@ -58,19 +58,13 @@ void DOS() {
     LogMessage("DONE", {"SpaceDOS [Not Real DOS] successfully launched", "SpaceDOS [Not Real DOS] успешно запущен"}, 000);
 
     PrintTimeMonth();
+    CurrentTime();
 
     while (true){
         printMessage(false, {"Enter command: ", "Введите команду: "});
 
-        /*if (language == "Russian"){
-            cout << "Введите команду: ";
-        }
-        else {
-            cout << "Enter command: ";
-        }*/
-
         string command_input;
-        cin >> ws; // плов: ты провёл сто часов своей жизни чтобы понять, что эта строчка спасёт тебе жопу от wcin.ignore()
+        cin >> ws;
 
         getline(cin, command_input);
 
@@ -80,6 +74,10 @@ void DOS() {
 
         if (command_input == "work_time") {
             calculateWorkTime();
+        }
+
+        if (command_input == "time") {
+            CurrentTime();
         }
 
         if (command_input == "exit"){
@@ -156,12 +154,7 @@ int main(){
         cin.imbue(locale());
         LogMessage("DONE", {"Operating system is not Windows | Use locale for command line customization", "Операционная система - не Windows | Используется locale для настройки командной строки"}, 000);
     #endif
-
-    vector<string> symbolsLoadingDOS = { // Символы фэйковой загрузки DOS
-        "|", "/", "-", "\\"
-    };
-    fakeLoading(symbolsLoadingDOS, "Loading", "Loading commands", "Loading commands", "Launching SpaceDOS", "SpaceDOS launched successfully!");
-
+    
     this_thread::sleep_for(std::chrono::seconds(1));
 
     DOS();
