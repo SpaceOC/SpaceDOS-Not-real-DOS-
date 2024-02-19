@@ -200,4 +200,7 @@ int main(){
     if (Password) {
         Password_Please();
     }
+    if (!Password) {
+        DOS();
+    }
 }
