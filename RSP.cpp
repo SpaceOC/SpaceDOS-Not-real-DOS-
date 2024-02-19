@@ -2,12 +2,22 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <vector>
 #include "other.h"
 
 using namespace std;
 
 // Камень, ножницы, бумага!
 void RSP() {
+    //vector<string> Win_Messages_RU = {"", ""};
+    //vector<string> Win_Messages_EN = {""};
+
+    //vector<string> Lose_Messages_RU = {""};
+    //vector<string> Lose_Messages_EN = {""};
+
+    //vector<string> Tie_Messages_RU = {""};
+    //vector<string> Tie_Messages_EN = {""};
+
     int a;
     printMessage(true, {"\t\tINFO\n 1 - Rock\n 2 - Scissors\n 3 - Paper", "\t\tИНФОРМАЦИЯ\n 1 - Камень\n 2 - Ножницы\n 3 - Бумага"});
     cout << "----------------------------------------------------------" << endl;

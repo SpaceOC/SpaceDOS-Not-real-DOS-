@@ -28,7 +28,7 @@ void calculateWorkTime() {
 }
 
 // Текущее время
-void CurrentTime() {
+void CurrentTimeAndData() {
     auto now = chrono::system_clock::now();
     time_t currentTime = chrono::system_clock::to_time_t(now);
     tm timeInfo;
@@ -41,7 +41,7 @@ void CurrentTime() {
     char buffer[80];
     strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
 
-    cout << "Time: " << buffer << endl;
+    cout << "Time & Data: " << buffer << endl;
     cout << "----------------------------------------------------------" << endl;
 }
 

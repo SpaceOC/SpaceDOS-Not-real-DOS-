@@ -6,14 +6,13 @@
 #include <chrono>
 #include <iomanip>
 #include <filesystem>
-#include <conio.h>
+#include <map>
 #include "data.h"
 
 using namespace std;
 using namespace filesystem;
 
-extern string language;
-extern string Debug_Mode;
+extern map<string, string> User_Settings;
 
 extern path logFilePath;
 
@@ -23,26 +22,26 @@ extern path logFilePath;
 * Пример: printMessage(true, {"Hello world!", "Привет мир!"});
 */
 void printMessage(const bool Red, const vector<string> Message) {
-    if (language == "Russian" && Red == true) {
+    if (User_Settings["language"] == "Russian" && Red == true) {
         cout << Message[1] << endl;
     }
-    else if (language == "English" && Red == true) {
+    else if (User_Settings["language"] == "English" && Red == true) {
         cout << Message[0] << endl;
     }
-    else if (language == "Russian" && Red == false) {
+    else if (User_Settings["language"] == "Russian" && Red == false) {
         cout << Message[1];
     }
-    else if (language == "English" && Red == false) {
+    else if (User_Settings["language"] == "English" && Red == false) {
         cout << Message[0];
     }
-    // Да, я гений 💀💀💀💀💀
-    else if (language.empty() && (Red != true || Red != false ) || language.empty() && (Red != true || Red != false )) {
+    // 👍👍👍👍👍👍👍👍👍
+    else if (User_Settings["language"].empty() && (Red != true || Red != false ) || User_Settings["language"].empty() && (Red != true || Red != false )) {
         cout << "Error in the function \"printMessage\" | Contact the developer of this application if the error persists" << endl;
     }
 }
 
 void LogMessage(const string TypeDone, const vector<string> Message, const int ErrorCode) {
-    if (Debug_Mode == "true") {
+    if (User_Settings["Debug Mode"] == "true") {
         ofstream logFile(logFilePath, ios::app);
         if (logFile.is_open()) {
             auto now = chrono::system_clock::now();
@@ -57,10 +56,10 @@ void LogMessage(const string TypeDone, const vector<string> Message, const int E
             char buffer[80];
             strftime(buffer, 80, "%H:%M:%S / %d.%m.%Y", &timeInfo);
 
-            if (language == "Russian") {
+            if (User_Settings["language"] == "Russian") {
                 logFile << "[Time: " << buffer << " ] | " << Message[1] << endl;
             }
-            if (language == "English") {
+            if (User_Settings["language"] == "English") {
                 logFile << "[Time: " << buffer << " ] | " << Message[0] << endl;
             }
             logFile.close();

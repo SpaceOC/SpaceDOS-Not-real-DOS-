@@ -9,12 +9,10 @@
 
 #include <chrono>
 #include <thread>
-#include <fstream>
 #include <locale>
 #include <vector>
-#include <string>
 #include <algorithm>
-#include <filesystem>
+#include <map>
 
 #ifdef _WIN32
     #include <shellapi.h> // ..............
@@ -38,18 +36,19 @@
 using namespace std;
 
 extern string version;
-extern string DefaultLanguage;
-extern string DefaultUserName;
-extern string language;
-extern string username;
-extern string Debug_Mode;
+extern bool Password;
+
+extern map<string, string> User_Settings;
 
 // DOS
 void DOS() {
     vector<string> allowedCommands = { // Доступные команды
-        "help", "help ", "logo", "calculator", "version", "exit", 
+        "help", "help ", "logo", 
+        "file ", "version", "exit", 
         "hi", "RSP", "settings", 
-        "counter", "work_time", "clear", "source code", "time"
+        "counter", "work_time", "clear", 
+        "source_code", "time", "create",
+        "search", "tree"
     };
 
     printMessage(true, {"Welcome to SpaceDOS!", "Добро пожаловать в SpaceDOS!"});
@@ -58,15 +57,21 @@ void DOS() {
     LogMessage("DONE", {"SpaceDOS [Not Real DOS] successfully launched", "SpaceDOS [Not Real DOS] успешно запущен"}, 000);
 
     PrintTimeMonth();
-    CurrentTime();
+    CurrentTimeAndData();
 
     while (true){
-        printMessage(false, {"Enter command: ", "Введите команду: "});
+        cout << "[ " + User_Settings["username"] + " ] >>> ";
 
         string command_input;
-        cin >> ws;
+        while (!(cin >> ws)) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "[ " + User_Settings["username"] + " ] >>> ";
+        }
 
         getline(cin, command_input);
+
+        cout << "----------------------------------------------------------" << endl;
 
         if (command_input == "clear") {
             system("cls");
@@ -77,7 +82,7 @@ void DOS() {
         }
 
         if (command_input == "time") {
-            CurrentTime();
+            CurrentTimeAndData();
         }
 
         if (command_input == "exit"){
@@ -86,9 +91,9 @@ void DOS() {
             break;
         }
 
-        if (command_input == "source code") {
+        if (command_input == "source_code") {
             system("start https://github.com/SpaceOC/SpaceDOS-Not-real-DOS-");
-            LogMessage("DONE", {"The \"source code\" command was successfully activated.", "Команда \"source code\" была приведена в действие успешно"}, 000);
+            LogMessage("DONE", {"The \"source_code\" command was successfully activated.", "Команда \"source_code\" была приведена в действие успешно"}, 000);
         }
 
         if (command_input == "hi"){
@@ -113,12 +118,24 @@ void DOS() {
             help(EmptyCommandMoment);
         }
 
+        if (command_input.substr(0, 7) == "search "){
+            string Type_S = command_input.substr(7);
+            search(Type_S);
+        }
+
+        if (command_input.substr(0, 7) == "create "){
+            string Type = command_input.substr(7);
+            CCreate(Type);
+        }
+
+        if (command_input.substr(0, 5) == "file "){
+            string Type = command_input.substr(5);
+            CFile(Type);
+        }
+
         if (find(allowedCommands.begin(), allowedCommands.end(), command_input) == allowedCommands.end()) {
             cout << "Unknown command! Write \"help\" to find out what commands exist in SpaceDOS" << '\n';
             cout << "----------------------------------------------------------" << endl;
-        }
-
-        if (command_input == "calculator") {
         }
 
         if (command_input == "RSP") {
@@ -132,7 +149,30 @@ void DOS() {
         if (command_input == "settings") {
             settings();
         }
+
+        if (command_input == "tree") {
+            FF_Tree();
+        }
     }
+}
+
+void Password_Please() {
+    string Password_Enter;
+    bool DOS_Hello = false;
+    cout << "Enter password" << endl;
+    cout << "[ " + User_Settings["username"] + " ] >>> ";
+    cin >> Password_Enter;
+
+    while (!DOS_Hello) {
+        if (Password_Enter == User_Settings["Password"]) {
+            DOS_Hello = true;
+            break;
+        }
+        else {
+            cout << "Неверный пароль" << endl;
+        }
+    }
+    DOS();
 }
 
 
@@ -157,5 +197,7 @@ int main(){
     
     this_thread::sleep_for(std::chrono::seconds(1));
 
-    DOS();
+    if (Password) {
+        Password_Please();
+    }
 }

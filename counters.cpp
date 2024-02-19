@@ -8,8 +8,8 @@ using namespace std;
 
 // Counter
 void counter() {
-    int a; // Минимальное число
-    int b; // Максимальное число
+    size_t a; // Минимальное число
+    size_t b; // Максимальное число
 
     bool Stop = false; // Остановить!
 
