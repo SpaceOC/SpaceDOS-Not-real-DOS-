@@ -1,16 +1,10 @@
 // Не получилось совершить задуманное... Опять все команды (help, version и т.д) в одном файле будут... 💀👍
 #include <iostream>
-#include <chrono>
 #include <thread>
 #include <string>
-#include <algorithm>
-#include <ctime>
 #include <fstream>
 #include <cstdlib>
-#include <sstream>
 #include <cmath>
-#include <cctype>
-#include <type_traits>
 #include <map>
 #include "data.h"
 #include "other.h"

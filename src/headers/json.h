@@ -1,9 +1,10 @@
+#pragma once
+
 #include <iostream>
 #include <filesystem>
 #include <vector>
 #include <fstream>
 #include <string>
-#include "other.h"
 
 // Это самый [кринжовый?] и сырой инструментал для работы с JSON файлами, который ты мог увидеть
 // ......................................................

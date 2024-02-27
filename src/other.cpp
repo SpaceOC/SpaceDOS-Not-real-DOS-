@@ -1,13 +1,10 @@
 #include <iostream>
-#include <windows.h>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <chrono>
-#include <iomanip>
 #include <filesystem>
 #include <map>
-#include "data.h"
 
 using namespace std;
 using namespace filesystem;
