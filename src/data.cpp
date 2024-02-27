@@ -1,9 +1,6 @@
 #include <iostream>
-#include <windows.h>
-#include <locale>
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <fstream>
 #include <filesystem>
 #include <map>
