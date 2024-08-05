@@ -8,14 +8,16 @@
 void counter() {
     int a, b = 0;
     print("Min number: ");
-    while(!(std::cin >> a)) {
+
+    while (!(std::cin >> a)) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
         print("Min number: ");
     } 
     a--;
     print("Max number: ");
-    while(!(std::cin >> b)) {
+
+    while (!(std::cin >> b)) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
         print("Max number: ");
@@ -37,6 +39,7 @@ void counter() {
     FM.createFolder("Texts");
     FM.createFile("Texts/counter.txt");
     std::ofstream file("Texts/counter.txt", std::ios::out);
+
     if (file) {
         while (a != b) {
             a++;
@@ -44,7 +47,8 @@ void counter() {
             file << a << '\n';
         }
         file.close();
-    } else {
+    } 
+    else {
         print(print::colors::red, "Error!\n");
         return;
     }
@@ -53,6 +57,6 @@ void counter() {
     std::string yourChoice;
     print("Exit? (Y/N) \t");
     std::cin >> yourChoice;
-    if (yourChoice == "N") { counter(); } 
-    else { return; }
+    if (yourChoice == "N") 
+        counter();
 }

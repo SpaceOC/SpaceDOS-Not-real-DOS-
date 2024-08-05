@@ -15,8 +15,10 @@ std::string SpaceDOS_Settings::languageListLine() {
     auto it = languageList.begin();
 
     for (auto lang : languageList) {
-        if (std::next(it) == languageList.end()) { temp += lang; }
-        else { temp += lang + ", "; }
+        if (std::next(it) == languageList.end())
+            temp += lang;
+        else 
+            temp += lang + ", ";
         it++;
     }
     return temp;
@@ -39,7 +41,8 @@ void SpaceDOS_Settings::languageSettings() {
         print(print::colors::aqua, "Enter: ");
     }
     getline(std::cin, selectedLanguage);
-    if (languageExist(selectedLanguage)) { languageChange(selectedLanguage); }
+    if (languageExist(selectedLanguage))
+        languageChange(selectedLanguage);
     else {
         print(print::colors::red, "This language does not exist in the list of available languages!\n"); 
         languageSettings();
@@ -58,8 +61,10 @@ void SpaceDOS_Settings::settingsChoice() {
             print(print::colors::aqua, "Enter: ");
         }
 
-        if (choice == 0) { break; }
-        else if (choice == 1) { languageSettings(); }
+        if (choice == 0) 
+            break;
+        else if (choice == 1)
+            languageSettings();
     }
 }
 

@@ -13,7 +13,7 @@ void RSP() {
     print("----------------------------------------------------------\n");
     print(print::colors::green, "Enter a number between one and three: ");
        
-    while(!(std::cin >> playerChoice))
+    while (!(std::cin >> playerChoice))
     {
         std::cin.clear();
         std::cin.ignore(10000, '\n');

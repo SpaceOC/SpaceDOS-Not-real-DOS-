@@ -56,10 +56,10 @@ void printTimeMonth() {
     int day = localTime.tm_mday;
     int month = localTime.tm_mon + 1;
     int year = localTime.tm_year + 1900;
-    if (day == 1 & month == 4) print("Happy first April!\n");
-    else if (month >= 12 || month <= 2) print("It's winter time!\n");
+    if (day == 1 && month == 4) print("Happy first April!\n");
+    else if (month >= 12 && month <= 2) print("It's winter time!\n");
     else if (month >= 12 && day == 31) print("New Year's Eve is coming up!\n");
-    else if (month >= 3 || month <= 5) print("Spring time...\n");
-    else if (month >= 6 || month <= 8) print("SUMMER!\n");
-    else if (month >= 9 || month <= 11) print("Autumn...\n");
+    else if (month >= 3 && month <= 5) print("Spring time...\n");
+    else if (month >= 6 && month <= 8) print("SUMMER!\n");
+    else if (month >= 9 && month <= 11) print("Autumn...\n");
 }

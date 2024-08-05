@@ -19,14 +19,15 @@ void dosInit() {
     for (auto user : UM.getUserMap()) {
         if (!FM.fileExist("Data/SpaceDOS/Users/" + user.first + ".json")) {
             FM.createFile("Data/SpaceDOS/Users/" + user.first + ".json");
-            DM.createData("Data/SpaceDOS/Users/" + user.first + ".json", "Debug Mode", "false");
+            std::vector<std::string> keys = { "Debug Mode", "Latest Work Time", "Longer Work Time" };
+            DM.createData("Data/SpaceDOS/Users/" + user.first + ".json", keys, {"false", "", ""});
         }
     }
 }
 
 void commandsZone() {
     handlerCommands HC;
-    while(work) {
+    while (work) {
         print(print::colors::aqua, ">>> ");
         std::string userInputResult;
         while (!(std::cin >> std::ws)) {
