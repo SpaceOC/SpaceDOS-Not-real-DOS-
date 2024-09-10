@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SPACEDOS_OTHER_TIME_H_
 #define SPACEDOS_OTHER_TIME_H_
 

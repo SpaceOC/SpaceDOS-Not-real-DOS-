@@ -36,12 +36,12 @@ std::string getCurrentData() {
 
 void printWorkTime() {
     std::vector<int> currentWorkTime = workTime();
-    print(print::colors::light_green, "Work Time: ");
+    core::print(core::colors::light_green, "Work Time: ");
     std::cout << std::setw(2) << std::setfill('0') << currentWorkTime[0] << ":" << std::setw(2) << std::setfill('0') << currentWorkTime[1] << ":" << std::setw(2) << std::setfill('0') << currentWorkTime[2] << '\n';
 }
 
 void printCurrentDate() {
-    print(print::colors::light_green, "Time & Data: " + getCurrentData() + '\n');
+    core::print(core::colors::light_green, "Time & Date: " + getCurrentData() + '\n');
 }
 
 void printTimeMonth() {
@@ -55,11 +55,11 @@ void printTimeMonth() {
     #endif
     int day = localTime.tm_mday;
     int month = localTime.tm_mon + 1;
-    int year = localTime.tm_year + 1900;
-    if (day == 1 && month == 4) print("Happy first April!\n");
-    else if (month >= 12 && month <= 2) print("It's winter time!\n");
-    else if (month >= 12 && day == 31) print("New Year's Eve is coming up!\n");
-    else if (month >= 3 && month <= 5) print("Spring time...\n");
-    else if (month >= 6 && month <= 8) print("SUMMER!\n");
-    else if (month >= 9 && month <= 11) print("Autumn...\n");
+    //int year = localTime.tm_year + 1900;
+    if (day == 1 && month == 4) core::print("Happy first April!\n");
+    else if (month >= 12 || month <= 2) core::print("It's winter time!\n");
+    else if (month >= 12 && day == 31) core::print("New Year's Eve is coming up!\n");
+    else if (month >= 3 && month <= 5) core::print("Spring time...\n");
+    else if (month >= 6 && month <= 8) core::print("SUMMER!\n");
+    else if (month >= 9 && month <= 11) core::print("Autumn...\n");
 }

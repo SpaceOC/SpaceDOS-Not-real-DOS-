@@ -1,10 +1,18 @@
-extern void Init();
+#include <iostream>
+#include "Core/main.h"
+#include "Core/base/print.h"
 extern void OS();
-extern void fixNOW();
 
 int main() {
-    fixNOW();
-    Init();
-    OS();
+    try
+    {
+        core::main start;
+        OS();
+    }
+    catch(const std::exception& e)
+    {
+        core::print(core::colors::red, "ERROR: ");
+        core::print(core::colors::red, e.what());
+    }
     return 0;
 }

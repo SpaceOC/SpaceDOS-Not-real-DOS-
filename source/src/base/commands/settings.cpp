@@ -6,6 +6,7 @@
 #include "Core/base/print.h"
 #include "OS/base/commands/settings.h"
 
+
 bool SpaceDOS_Settings::languageExist(std::string language) {
     return std::find(languageList.begin(), languageList.end(), language) != languageList.end();
 };
@@ -25,40 +26,41 @@ std::string SpaceDOS_Settings::languageListLine() {
 };
 
  void SpaceDOS_Settings::languageChange(std::string language) {
-    dataManager DM;
-    userManager UM;
+    core::dataManager DM;
+    core::userManager UM;
     DM.changeData("Data/Users/" + UM.yourUsername() + ".json", "Language", language, false);
     UM.readUserData(UM.yourUsername());
 }
 
 void SpaceDOS_Settings::languageSettings() {
     std::string selectedLanguage;
-    print(print::colors::green, "Available languages: " + languageListLine() + "\n");
-    print(print::colors::aqua, "Enter: ");
+    core::print(core::colors::green, "Available languages: " + languageListLine() + "\n");
+    core::print(core::colors::aqua, "Enter: ");
+    
     while (!(std::cin >> std::ws)) {
         std::cin.clear();
         std::cin.ignore(10000, '\n');
-        print(print::colors::aqua, "Enter: ");
     }
-    getline(std::cin, selectedLanguage);
+    std::getline(std::cin, selectedLanguage);
+
     if (languageExist(selectedLanguage))
         languageChange(selectedLanguage);
     else {
-        print(print::colors::red, "This language does not exist in the list of available languages!\n"); 
+        core::print(core::colors::red, "This language does not exist in the list of available languages!\n"); 
         languageSettings();
     }
 }
 
 void SpaceDOS_Settings::settingsChoice() {
     while (true) {
-        print(availableAvailability + '\n');
-        print(print::colors::aqua, "Enter: ");
+        core::print(availableAvailability + '\n');
+        core::print(core::colors::aqua, "Enter: ");
         int choice;
-
+        
         while (!(std::cin >> choice)) {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
-            print(print::colors::aqua, "Enter: ");
+            core::print(core::colors::aqua, "Enter: ");
         }
 
         if (choice == 0) 
