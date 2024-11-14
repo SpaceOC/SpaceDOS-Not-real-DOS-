@@ -3,13 +3,13 @@
 #include <string>
 #include <vector>
 
-class logsManager {
+class LogsManager {
     private:
-        struct logsData {
+        struct LogsData {
             std::string content, function, stringTime;
         };
-        static inline std::vector<std::vector<logsData>> allLogsData;
-        static inline std::vector<logsData> currentLogs;
+        static inline std::vector<std::vector<LogsData>> allLogsData;
+        static inline std::vector<LogsData> currentLogs;
 
         static void showCurrentLogs();
         static void showFileLogs();

@@ -17,7 +17,11 @@ add_executable(OS
 				${OS_SOURCE_DIR}/other/counter.cpp 
 				${OS_SOURCE_DIR}/other/time.cpp
 				${OS_SOURCE_DIR}/other/logs.cpp
+				${OS_SOURCE_DIR}/other/update.cpp
+				${OS_SOURCE_DIR}/other/fake_loading.cpp
+				#${OS_SOURCE_DIR}/other/dll_loading.cpp
 				${OS_SOURCE_DIR}/games/RSP.cpp
+				${OS_SOURCE_DIR}/games/snake.cpp
 				${OS_SOURCE_DIR}/base/commands/main.cpp 
 				${OS_SOURCE_DIR}/base/commands/other.cpp 
 				${OS_SOURCE_DIR}/base/commands/settings.cpp)
@@ -28,7 +32,7 @@ target_compile_options(OS
         -O2
         -Wall
         -Wextra
-        #-Werror
+        -Werror
         -Wpedantic
         -static
 )

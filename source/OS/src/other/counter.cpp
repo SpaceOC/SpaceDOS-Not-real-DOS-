@@ -24,19 +24,19 @@ void counter() {
         core::print("Max number: ");
     }
     if (a > b) {
-        core::print(core::colors::red, "The minimum number cannot be greater than the maximum number!!!\n");
+        core::print("The minimum number cannot be greater than the maximum number!!!\n", core::PrintColors::red);
         return;
     }
     if (b >= 1000000 || b <= -1000000) {
         std::string choice;
-        core::print(core::colors::yellow, "Attention! This number is huge and it will take a long time to finish working with such a number. Do you want to continue? (Y/N) \t");
+        core::print("Attention! This number is huge and it will take a long time to finish working with such a number. Do you want to continue? (Y/N) \t", core::PrintColors::yellow);
         std::cin >> choice;
         if (choice == "N") {
             return;
         }
     }
     core::print("----------------------------------------------------------\n");
-    core::fileManager FM;
+    core::FileManager FM;
     FM.createFolder("Texts");
     FM.createFile("Texts/counter.txt");
     std::ofstream file("Texts/counter.txt", std::ios::out);
@@ -50,11 +50,11 @@ void counter() {
         file.close();
     } 
     else {
-        core::print(core::colors::red, "Error!\n");
+        core::print("Error!\n", core::PrintColors::red);
         return;
     }
     core::print("----------------------------------------------------------\n");
-    core::print(core::colors::green, "It's done! The file is saved in the Texts folder under the name \"counter.txt\"\n");
+    core::print("It's done! The file is saved in the Texts folder under the name \"counter.txt\"\n", core::PrintColors::green);
     std::string choice;
     core::print("Exit? (Y/N) \t");
     std::cin >> choice;
@@ -68,7 +68,7 @@ void counterWithArgs(const std::vector<std::string>& args) {
         return;
     }
     else if (!core::Utils::stringIsNumbers(args.at(0)) || !core::Utils::stringIsNumbers(args.at(1))) {
-        core::print(core::colors::red, "Error\n");
+        core::print("Error\n", core::PrintColors::red);
         return;
     }
 
@@ -76,18 +76,18 @@ void counterWithArgs(const std::vector<std::string>& args) {
     int b = stoi(args.at(1));
 
     if (a > b) {
-        core::print(core::colors::red, "The minimum number cannot be greater than the maximum number!!!\n");
+        core::print("The minimum number cannot be greater than the maximum number!!!\n", core::PrintColors::red);
         return;
     }
     if (b >= 1000000 || b <= -1000000 || a >= 1000000 || a <= -1000000) {
         std::string choice;
-        core::print(core::colors::yellow, "Attention! This number(s) is huge and it will take a long time to finish working with such a number. Do you want to continue? (Y/N) \t");
+        core::print("Attention! This number(s) is huge and it will take a long time to finish working with such a number. Do you want to continue? (Y/N) \t", core::PrintColors::yellow);
         std::cin >> choice;
         if (choice == "N")
             return;
     }
 
-    core::fileManager FM;
+    core::FileManager FM;
     FM.createFolder("Texts");
     FM.createFile("Texts/counter.txt");
     std::ofstream file("Texts/counter.txt", std::ios::out);
@@ -101,9 +101,9 @@ void counterWithArgs(const std::vector<std::string>& args) {
         file.close();
     } 
     else {
-        core::print(core::colors::red, "Error!\n");
+        core::print("Error!\n", core::PrintColors::red);
         return;
     }
     core::print("----------------------------------------------------------\n");
-    core::print(core::colors::green, "It's done! The file is saved in the Texts folder under the name \"counter.txt\"\n");
+    core::print("It's done! The file is saved in the Texts folder under the name \"counter.txt\"\n", core::PrintColors::green);
 }

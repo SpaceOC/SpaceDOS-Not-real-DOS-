@@ -36,12 +36,12 @@ std::string getCurrentData() {
 
 void printWorkTime() {
     std::vector<int> currentWorkTime = workTime();
-    core::print(core::colors::light_green, "Work Time: ");
+    core::print("Work Time: ", core::PrintColors::light_green);
     std::cout << std::setw(2) << std::setfill('0') << currentWorkTime[0] << ":" << std::setw(2) << std::setfill('0') << currentWorkTime[1] << ":" << std::setw(2) << std::setfill('0') << currentWorkTime[2] << '\n';
 }
 
 void printCurrentDate() {
-    core::print(core::colors::light_green, "Time & Date: " + getCurrentData() + '\n');
+    core::print("Time & Date: " + getCurrentData() + '\n', core::PrintColors::light_green);
 }
 
 void printTimeMonth() {

@@ -9,12 +9,11 @@
 #include "Core/base/print.h"
 
 void OS_COMMAND_hi() {
-    std::vector<std::string> Hello_EN = { "Hi!", "Hello!", "Hi there!", "Howdy!" };
-    std::vector<std::string> Hello_RU = { "Привет!", "Здравствуйте.", "Здарова.", "Приветствую." };
+    std::vector<std::string> HelloEN = { "Hi!", "Hello!", "Hi there!", "Howdy!" };
+    std::vector<std::string> HelloRU = { "Привет!", "Здравствуйте.", "Здарова.", "Приветствую." };
     int a = rand() % 4;
-    core::dataManager DM;
-    core::userManager UM;
-    core::print((DM.getValue("Data/Users/" + UM.yourUsername() + ".json", "Language") == "English") ? Hello_EN[a] + '\n' : Hello_RU[a] + '\n');
+    core::DataManager DM;
+    core::print((DM.getValue("Data/Users/" + core::UserManager::yourUsername() + ".json", "Language") == "English") ? HelloEN[a] + '\n' : HelloRU[a] + '\n');
 }
 
 void OS_COMMAND_dosInfo() {
@@ -43,7 +42,7 @@ void OS_COMMAND_logo() {
         R"(⢸⣿⣿⣤⣤⣵⣶⣿⣿⡿⠟⠉⠀⠀⠀⠀⠈⠻⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀)",
         R"(⠘⠿⠿⠿⠿⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀)"
     };
-    for (auto s : vs) core::print(core::colors::blue, s + '\n');
+    for (auto s : vs) core::print(s + '\n', core::PrintColors::blue);
 }
 
 void OS_COMMAND_seeFaF() {
@@ -59,27 +58,27 @@ void OS_COMMAND_seeFaF() {
             files.push_back(filesAndFolders[i]);
         else if (status.type() == std::filesystem::file_type::directory) 
             folders.push_back(filesAndFolders[i]);
-        else core::print(core::colors::red, "Unknown -- >> " + filesAndFolders[i].generic_string() + " << -- Unknown\n");
+        else core::print("Unknown -- >> " + filesAndFolders[i].generic_string() + " << -- Unknown\n", core::PrintColors::red);
     }
 
     core::print("------------- >>> [ Files ] <<< -------------\n");
 
     for (size_t i = 0; i <= (files.size() - 1); i++) {
-        if (files.empty()) { core::print(core::colors::red, "Files not found\n"); break; }
-        core::print(core::colors::green, files[i].generic_string() + '\n');
+        if (files.empty()) { core::print("Files not found\n", core::PrintColors::red); break; }
+        core::print(files[i].generic_string() + '\n', core::PrintColors::green);
     }
 
     core::print("------------- >>> [ Folders ] <<< -----------\n");
 
     for (size_t i = 0; i <= (folders.size() - 1); i++) {
-        if (folders.empty()) { core::print(core::colors::red, "Folders not found\n"); break; }
-        core::print(core::colors::green, folders[i].generic_string() + '\n');
+        if (folders.empty()) { core::print("Folders not found\n", core::PrintColors::red); break; }
+        core::print(folders[i].generic_string() + '\n', core::PrintColors::green);
     }
 }
 
 void OS_COMMAND_seeOnlyF(const std::vector<std::string>& args) {
     if (args[0] != "folders" && args[0] != "files") {
-        core::print(core::colors::red, "Invalid 'type' argument. Only 'folders' and 'files' are allowed.\n");
+        core::print("Invalid 'type' argument. Only 'folders' and 'files' are allowed.\n", core::PrintColors::red);
         return;
     }
 
@@ -99,15 +98,15 @@ void OS_COMMAND_seeOnlyF(const std::vector<std::string>& args) {
             if (args[0] == "folders")
                 folders.push_back(filesAndFolders[i]);
         }
-        else core::print(core::colors::red, "Unknown -- >> " + filesAndFolders[i].generic_string() + " << -- Unknown\n");
+        else core::print("Unknown -- >> " + filesAndFolders[i].generic_string() + " << -- Unknown\n", core::PrintColors::red);
     }
 
     if (args[0] == "files") {
         core::print("------------- >>> [ Files ] <<< -------------\n");
 
         for (size_t i = 0; i <= (files.size() - 1); i++) {
-            if (files.empty()) { core::print(core::colors::red, "Files not found\n"); break; }
-            core::print(core::colors::green, files[i].generic_string() + '\n');
+            if (files.empty()) { core::print("Files not found\n", core::PrintColors::red); break; }
+            core::print(files[i].generic_string() + '\n', core::PrintColors::green);
         }
     }
 
@@ -115,8 +114,8 @@ void OS_COMMAND_seeOnlyF(const std::vector<std::string>& args) {
         core::print("------------- >>> [ Folders ] <<< -----------\n");
 
         for (size_t i = 0; i <= (folders.size() - 1); i++) {
-            if (folders.empty()) { core::print(core::colors::red, "Folders not found\n"); break; }
-            core::print(core::colors::green, folders[i].generic_string() + '\n');
+            if (folders.empty()) { core::print("Folders not found\n", core::PrintColors::red); break; }
+            core::print(folders[i].generic_string() + '\n', core::PrintColors::green);
         }
     }
 }

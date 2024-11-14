@@ -8,23 +8,23 @@
 #include "OS/other/logs.h"
 #include "OS/other/time.h"
 
-void logsManager::showCurrentLogs() {
+void LogsManager::showCurrentLogs() {
     for (const auto& data : currentLogs)
-        core::print(core::colors::aqua, "[ " + data.function + " - " + data.stringTime + " ] " + data.content + '\n');
+        core::print("[ " + data.function + " - " + data.stringTime + " ] " + data.content + '\n', core::PrintColors::aqua);
 }
 
-void logsManager::showFileLogs() {
+void LogsManager::showFileLogs() {
     unsigned long long list = 0;
     unsigned long long pastList = list;
     unsigned long long fileLogsDataSize = allLogsData.size() - (allLogsData.size() == 1 ? 0 : 1);
     while (true) {
 
         if (fileLogsDataSize < list || allLogsData.size() == 1 <= list) {
-            core::print(core::colors::red, "Error: content in the list of log pages number '"
+            core::print("Error: content in the list of log pages number '"
                 + std::to_string((list + 1))
-                + "' does not exist!\n");
+                + "' does not exist!\n", core::PrintColors::red);
             list = pastList;
-            logsManager::writeLogs(__FUNCTION__, "Error: the value of 'file_logs_data_size' cannot be lower than the value of 'list'");
+            LogsManager::writeLogs(__FUNCTION__, "Error: the value of 'file_logs_data_size' cannot be lower than the value of 'list'");
         }
 
         if (allLogsData.size() == 0) 
@@ -33,11 +33,11 @@ void logsManager::showFileLogs() {
         pastList = list;
 
         for (const auto& data : allLogsData[list])
-            core::print(core::colors::aqua, "[ " + data.function + " - " + data.stringTime + " ] " + data.content + '\n');
+            core::print("[ " + data.function + " - " + data.stringTime + " ] " + data.content + '\n', core::PrintColors::aqua);
         
         std::cout << " --- File List: " << (list + 1) << " --- Type 'exit' to stop reading logs.\n";
         std::string userChoice;
-        core::print(core::colors::aqua, ">>> ");
+        core::print(">>> ", core::PrintColors::aqua);
         std::cin >> userChoice;
 
         if (userChoice == "exit")
@@ -45,7 +45,7 @@ void logsManager::showFileLogs() {
         else { 
             if (!core::Utils::stringIsNumbers(userChoice)) {
                 std::cout << "Error!\n";
-                logsManager::writeLogs(__FUNCTION__, "Error: the 'user_choice' variable contains characters not suitable for stoi(), which may cause unexpected behavior. The value of 'user_choice': " + userChoice);
+                LogsManager::writeLogs(__FUNCTION__, "Error: the 'user_choice' variable contains characters not suitable for stoi(), which may cause unexpected behavior. The value of 'user_choice': " + userChoice);
                 break;
             }
             else 
@@ -54,7 +54,7 @@ void logsManager::showFileLogs() {
     }
 }
 
-void logsManager::writeLogs(std::string function, std::string content) {
+void LogsManager::writeLogs(std::string function, std::string content) {
     currentLogs.push_back({
         content, 
         function, 
@@ -62,36 +62,35 @@ void logsManager::writeLogs(std::string function, std::string content) {
     });
 }
 
-void logsManager::showLogs(const std::vector<std::string>& args) {
-    if (args[0] != "in-os" && args[0] != "in-file") {
-        core::print(core::colors::red, "Invalid 'type' argument. Only 'in-os' and 'file' are allowed.\n");
+void LogsManager::showLogs(const std::vector<std::string>& args) {
+    if (args.at(0) != "in-os" && args.at(0) != "in-file") {
+        core::print("Invalid 'type' argument. Only 'in-os' and 'in-file' are allowed.\n", core::PrintColors::red);
         return;
     }
 
-    core::userManager UM;
-    if (UM.currentUserData().havePassword()) {
+    if (core::UserManager::currentUserData().havePassword()) {
         std::string password;
-        core::print(core::colors::light_aqua, "Enter your password: ");
+        core::print("Enter your password: ", core::PrintColors::light_aqua);
         while (!(std::cin >> std::ws)) {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
         }
         std::getline(std::cin, password);
 
-        if (!UM.currentUserData().truePassword(password)) {
-            core::print(core::colors::red, "Incorrect password!\n");
+        if (!core::UserManager::currentUserData().truePassword(password)) {
+            core::print("Incorrect password!\n", core::PrintColors::red);
             return;
         }
     }
 
-    if (args[0] == "in-os")
-        logsManager::showCurrentLogs();
+    if (args.at(0) == "in-os")
+        LogsManager::showCurrentLogs();
     else
-        logsManager::showFileLogs();
+        LogsManager::showFileLogs();
 }
 
-void logsManager::loadLogs() {
-    core::fileManager FM;
+void LogsManager::loadLogs() {
+    core::FileManager FM;
     if (FM.fileExist("./Data/logs.json")) {
         std::ifstream logs("./Data/logs.json");
         std::string line;
@@ -100,11 +99,11 @@ void logsManager::loadLogs() {
             temp += line;
         }
         if (!temp._Starts_with("[")) {
-            core::print(core::colors::red, "Error in reading logs.json: There is a missing '[' at the beginning of the file content!\n");
+            core::print("Error in reading logs.json: There is a missing '[' at the beginning of the file content!\n", core::PrintColors::red);
             return;
         }
         nlohmann::json jsonData = nlohmann::json::parse(temp);
-        std::vector<logsData> vectorTemp;
+        std::vector<LogsData> vectorTemp;
         for (const auto& list : jsonData) {
             for (const auto& data : list) {
                 vectorTemp.push_back({
@@ -122,7 +121,7 @@ void logsManager::loadLogs() {
         FM.createFile("./Data/logs.json");
 }
 
-void logsManager::saveLogs() {
+void LogsManager::saveLogs() {
     std::fstream logs("./Data/logs.json", std::ios::out);
     allLogsData.push_back(currentLogs);
     nlohmann::json jsonData;
