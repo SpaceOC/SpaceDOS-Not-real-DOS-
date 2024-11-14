@@ -2,7 +2,7 @@
 - My first C++ project (please don't judge me harshly)
 - A project to consolidate my C++ knowledge
 
-Since version 1.7 Alpha uses NRC kernel (to create pseudo-OS)
+Since version 1.8 Alpha uses NRC kernel (to create pseudo-OS)
  - Link to NRC: https://github.com/SpaceOC/NRC
 
 # SpaceDOS
