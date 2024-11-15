@@ -20,5 +20,5 @@ Since version 1.7 Alpha uses NRC kernel (to create pseudo-OS)
 
     - SpaceDOS -
     counter, off, faf (folders and files), see_f [type (folders of files)], hello,
-    logo, os_info, rsp (Rock, Scissors, Paper), set_user_permissions,
-    settings, show_time, work_time, logs [type (in-os or in-file)], snake
+    logo, os_info, rsp (Rock, Scissors, Paper), settings,
+    show_time, work_time, logs [type (in-os or in-file)], snake
